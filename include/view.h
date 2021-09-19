@@ -9,7 +9,6 @@ class View {
 	SDL_Window *window;
 	SDL_Renderer *renderer;
 	SDL_Texture *texture, *bg;
-	SDL_Rect target;
 	Character &c;
 
 	public:
