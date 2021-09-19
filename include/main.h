@@ -1,3 +1,0 @@
-/* Jogo */
-
-#pragma once
