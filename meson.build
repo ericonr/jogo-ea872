@@ -4,7 +4,11 @@ sdl2 = dependency('sdl2')
 sdl2_image = dependency('SDL2_image')
 
 includes = include_directories('include')
-srcs = ['src/main.cc']
+srcs = [
+	'src/main.cc',
+	'src/view.cc',
+	'src/input.cc',
+]
 
 executable('jogo',
 	srcs,
