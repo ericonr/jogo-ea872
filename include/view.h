@@ -24,13 +24,22 @@ namespace direction {
 	const int max = 4;
 }
 
+struct Player {
+	unsigned movement;
+	unsigned long id;
+	enum {keyboard, online} type;
+
+	// keyboard
+	int keys[4];
+};
+
 class Input {
 	SDL_Event event;
 	const Uint8 *keyboard;
 	int numkeys;
 
 	bool m_should_quit;
-	bool m_movement[direction::max];
+	std::vector<Player> player_vector;
 
 	public:
 		// recebe uma View para garantir que já tenhamos chamado SDL_Init()

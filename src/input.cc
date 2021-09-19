@@ -3,8 +3,12 @@
 #include "view.h"
 
 Input::Input(const View &v):
-	m_should_quit(false)
+	m_should_quit(false),
+	player_vector(0)
 {
+	Player p{0, 0, Player::keyboard, {SDL_SCANCODE_W, SDL_SCANCODE_S, SDL_SCANCODE_A, SDL_SCANCODE_D}};
+	player_vector.push_back(p);
+
 	keyboard = SDL_GetKeyboardState(&numkeys);
 }
 
@@ -16,15 +20,21 @@ void Input::refresh()
 		}
 	}
 
-	m_should_quit = keyboard[SDL_SCANCODE_Q];
-	m_movement[direction::up] = keyboard[SDL_SCANCODE_W];
-	m_movement[direction::left] = keyboard[SDL_SCANCODE_A];
-	m_movement[direction::down] = keyboard[SDL_SCANCODE_S];
-	m_movement[direction::right] = keyboard[SDL_SCANCODE_D];
+	if (keyboard[SDL_SCANCODE_Q]) m_should_quit = true;
+
+	for (auto &p: player_vector) {
+		if (p.type == Player::keyboard) {
+			int i = 0;
+			p.movement = 0;
+			for (auto key: p.keys) {
+				p.movement |= keyboard[key] << i++;
+			}
+		}
+	}
 }
 
 bool Input::movement(int direction)
 {
 	if (direction >= direction::max) throw std::logic_error("out of bounds index");
-	return m_movement[direction];
+	return player_vector[0].movement & (1 << direction);
 }
