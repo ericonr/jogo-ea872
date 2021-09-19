@@ -1,8 +1,13 @@
 project('jogo', 'cpp')
 
 sdl2 = dependency('sdl2')
+sdl2_image = dependency('SDL2_image')
 
 includes = include_directories('include')
 srcs = ['src/main.cc']
 
-executable('jogo', srcs, include_directories: includes, dependencies: sdl2)
+executable('jogo',
+	srcs,
+	include_directories: includes,
+	dependencies: [sdl2, sdl2_image]
+)
