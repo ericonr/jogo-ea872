@@ -47,7 +47,6 @@ View::View(Character &c):
 
 	texture = IMG_LoadTexture(renderer, "resources/img/capi.png");
 	bg = IMG_LoadTexture(renderer, "resources/img/park.jpeg");
-	SDL_QueryTexture(texture, nullptr, nullptr, &target.w, &target.h);
 }
 
 View::~View()
@@ -61,9 +60,13 @@ View::~View()
 
 void View::render()
 {
+	SDL_Rect target;
+
 	SDL_RenderClear(renderer);
 
 	SDL_RenderCopy(renderer, bg, nullptr, nullptr);
+
+	target.w = target.h = c.size;
 	target.x = adjust_x(c.x, target.w);
 	target.y = adjust_y(c.y, target.h);
 	SDL_RenderCopy(renderer, texture, nullptr, &target);

@@ -8,7 +8,7 @@ static const float T = 0.01;
 
 int main(int argc, char **argv)
 {
-	Character c{0, 0};
+	Character c{0, 0, 50};
 	Controller co{c};
 	View v{c};
 	Input in{v};
