@@ -5,10 +5,22 @@
 const static int SCREEN_WIDTH = 640;
 const static int SCREEN_HEIGHT = 480;
 
-static int ajustar_coord(float pos, int dimensao_objeto, int dimensao_max)
+// 1m = 10px
+const static float px_per_m = 10.;
+
+static int adjust_coord(float pos, int object_size, int max_size)
 {
-	// 1m = 100px
-	return (int)(pos * 100.) + dimensao_max/2 - dimensao_objeto/2;
+	return (int)(pos * px_per_m) + max_size/2 - object_size/2;
+}
+
+static int adjust_x(float pos, int object_size)
+{
+	return adjust_coord(pos, object_size, SCREEN_WIDTH);
+}
+
+static int adjust_y(float pos, int object_size)
+{
+	return adjust_coord(-pos, object_size, SCREEN_HEIGHT);
 }
 
 View::View(Character &c):
@@ -52,8 +64,8 @@ void View::render()
 	SDL_RenderClear(renderer);
 
 	SDL_RenderCopy(renderer, bg, nullptr, nullptr);
-	target.x = ajustar_coord(c.x, target.w, SCREEN_WIDTH);
-	target.y = ajustar_coord(c.y, target.h, SCREEN_HEIGHT);
+	target.x = adjust_x(c.x, target.w);
+	target.y = adjust_y(c.y, target.h);
 	SDL_RenderCopy(renderer, texture, nullptr, &target);
 
 	SDL_RenderPresent(renderer);
