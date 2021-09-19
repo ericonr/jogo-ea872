@@ -6,6 +6,7 @@ sdl2_image = dependency('SDL2_image')
 includes = include_directories('include')
 srcs = [
 	'src/main.cc',
+	'src/controller.cc',
 	'src/view.cc',
 	'src/input.cc',
 ]
