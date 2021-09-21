@@ -2,12 +2,13 @@
 
 #include "models.h"
 #include "view.h"
+#include <iostream>
 
 class Controller {
-	Character &c;
+	Characters &chars;
 
 	public:
-		Controller(Character &c): c(c) {}
-
+		Controller(Characters &chars): chars(chars) {}
 		void update(Input &in, float t);
+		
 };

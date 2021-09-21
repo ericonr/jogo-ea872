@@ -23,9 +23,9 @@ static int adjust_y(float pos, int object_size)
 	return adjust_coord(-pos, object_size, SCREEN_HEIGHT);
 }
 
-View::View(Character &c):
+View::View(Characters &chars):
 	window(nullptr), renderer(nullptr),
-	texture(nullptr), bg(nullptr), c(c)
+	texture(nullptr), bg(nullptr), chars(chars)
 {
 	if (SDL_Init (SDL_INIT_VIDEO) < 0) {
 		throw std::runtime_error(SDL_GetError());
@@ -64,14 +64,24 @@ void View::render()
 
 	SDL_RenderClear(renderer);
 
+	
+
+
+	for(unsigned int n_player = 0;n_player < chars.Character_vector.size();n_player++){
+
+	target.w = target.h = chars.Character_vector[n_player].size;
+	target.x = adjust_x(chars.Character_vector[n_player].x, target.w);
+	target.y = adjust_y(chars.Character_vector[n_player].y, target.h);
+
+	std::cout <<"posição em x do player "<< n_player << "\r\n" << target.x<< "\r\n" ;
+	std::cout <<"posição em y do player "<< n_player << "\r\n" << target.y<< "\r\n" ;
+
+
 	SDL_RenderCopy(renderer, bg, nullptr, nullptr);
-
-	target.w = target.h = c.size;
-	target.x = adjust_x(c.x, target.w);
-	target.y = adjust_y(c.y, target.h);
 	SDL_RenderCopy(renderer, texture, nullptr, &target);
-
 	SDL_RenderPresent(renderer);
+	}
+		
 }
 
 void View::delay(float t)

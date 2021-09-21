@@ -2,17 +2,17 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-
+#include <iostream>
 #include "models.h"
 
 class View {
 	SDL_Window *window;
 	SDL_Renderer *renderer;
 	SDL_Texture *texture, *bg;
-	Character &c;
+	Characters &chars;
 
 	public:
-		View(Character &c);
+		View(Characters &chars);
 		~View();
 
 		void render();
@@ -39,13 +39,14 @@ class Input {
 	int numkeys;
 
 	bool m_should_quit;
-	std::vector<Player> player_vector;
+	
+	
 
 	public:
-		// recebe uma View para garantir que já tenhamos chamado SDL_Init()
+		std::vector<Player> player_vector;
 		Input(const View &v);
 
 		void refresh();
 		bool should_quit() { return m_should_quit; }
-		bool movement(int direction);
+		bool movement(int direction,unsigned int n_player);
 };

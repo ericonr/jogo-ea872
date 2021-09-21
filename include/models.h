@@ -10,12 +10,11 @@ class Character {
 		Character(float x, float y, int size): x(x), y(y), size(size) {}
 };
 
-/*class Characters {
-	unsigned long ids;
-
+class Characters {
 	public:
-		std::vector<Character> cs;
-
-		Characters(): cs(0) {}
+		std::vector<Character> Character_vector;
 		void add_character(Character &c);
-};*/
+		void delete_character(Character &c);
+		Characters();
+
+};
