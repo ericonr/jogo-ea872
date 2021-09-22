@@ -7,12 +7,7 @@ Input::Input(const View &v):
 	m_should_quit(false),
 	player_vector(0)
 {
-	Player p1{0, 0, Player::keyboard, {SDL_SCANCODE_W, SDL_SCANCODE_S, SDL_SCANCODE_A, SDL_SCANCODE_D}};
-	Player p2{0, 0, Player::keyboard, {SDL_SCANCODE_UP, SDL_SCANCODE_DOWN, SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT}};
-
-	player_vector.push_back(p1);
-	player_vector.push_back(p2);
-
+	
 	keyboard = SDL_GetKeyboardState(&numkeys);
 }
 
