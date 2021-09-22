@@ -63,25 +63,17 @@ void View::render()
 	SDL_Rect target;
 
 	SDL_RenderClear(renderer);
-
-	
-
-
-	for(unsigned int n_player = 0;n_player < chars.Character_vector.size();n_player++){
-
-	target.w = target.h = chars.Character_vector[n_player].size;
-	target.x = adjust_x(chars.Character_vector[n_player].x, target.w);
-	target.y = adjust_y(chars.Character_vector[n_player].y, target.h);
-
-	std::cout <<"posição em x do player "<< n_player << "\r\n" << target.x<< "\r\n" ;
-	std::cout <<"posição em y do player "<< n_player << "\r\n" << target.y<< "\r\n" ;
-
-
 	SDL_RenderCopy(renderer, bg, nullptr, nullptr);
-	SDL_RenderCopy(renderer, texture, nullptr, &target);
-	SDL_RenderPresent(renderer);
+
+	for (auto character: chars.Character_vector) {
+		target.w = target.h = character.size;
+		target.x = adjust_x(character.x, target.w);
+		target.y = adjust_y(character.y, target.h);
+
+		SDL_RenderCopy(renderer, texture, nullptr, &target);
 	}
-		
+
+	SDL_RenderPresent(renderer);
 }
 
 void View::delay(float t)
