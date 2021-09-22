@@ -47,4 +47,6 @@ class Input {
 		void refresh();
 		bool should_quit() { return m_should_quit; }
 		bool movement(int direction, unsigned n_player);
+		void add_player(Player &p);
+		void delete_player(int pos);
 };

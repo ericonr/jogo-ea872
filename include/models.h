@@ -16,5 +16,5 @@ class Characters {
 		Characters() {}
 
 		void add_character(Character &c);
-		void delete_character(Character &c);
+		void delete_character(int pos);
 };
