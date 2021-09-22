@@ -2,7 +2,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <iostream>
+
 #include "models.h"
 
 class View {
@@ -39,8 +39,6 @@ class Input {
 	int numkeys;
 
 	bool m_should_quit;
-	
-	
 
 	public:
 		std::vector<Player> player_vector;
@@ -48,5 +46,5 @@ class Input {
 
 		void refresh();
 		bool should_quit() { return m_should_quit; }
-		bool movement(int direction,unsigned int n_player);
+		bool movement(int direction, unsigned n_player);
 };

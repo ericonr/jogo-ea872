@@ -9,13 +9,9 @@ Input::Input(const View &v):
 {
 	Player p1{0, 0, Player::keyboard, {SDL_SCANCODE_W, SDL_SCANCODE_S, SDL_SCANCODE_A, SDL_SCANCODE_D}};
 	Player p2{0, 0, Player::keyboard, {SDL_SCANCODE_UP, SDL_SCANCODE_DOWN, SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT}};
-		
 
 	player_vector.push_back(p1);
 	player_vector.push_back(p2);
-	
-	
-	
 
 	keyboard = SDL_GetKeyboardState(&numkeys);
 }
@@ -38,17 +34,11 @@ void Input::refresh()
 				p.movement |= keyboard[key] << i++;
 			}
 		}
-
-
 	}
-	 
 }
 
 bool Input::movement(int direction, unsigned int n_player)
 {
 	if (direction >= direction::max) throw std::logic_error("out of bounds index");
 	return player_vector[n_player].movement & (1 << direction);
-}
-Characters::Characters(){
-
 }

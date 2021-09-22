@@ -13,8 +13,9 @@ class Character {
 class Characters {
 	public:
 		std::vector<Character> Character_vector;
+
+		Characters() {}
+
 		void add_character(Character &c);
 		void delete_character(Character &c);
-		Characters();
-
 };
