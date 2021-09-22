@@ -9,6 +9,7 @@ srcs = [
 	'src/controller.cc',
 	'src/view.cc',
 	'src/input.cc',
+	'src/character.cc',
 ]
 
 executable('jogo',
