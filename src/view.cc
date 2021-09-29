@@ -23,9 +23,9 @@ static int adjust_y(float pos, int object_size)
 	return adjust_coord(-pos, object_size, SCREEN_HEIGHT);
 }
 
-View::View(Characters &chars):
+View::View(Characters &chars,Scenary_element_vector &sev):
 	window(nullptr), renderer(nullptr),
-	texture(nullptr), bg(nullptr), chars(chars)
+	texture(nullptr), bg(nullptr),element_texture(nullptr), chars(chars),sev(sev)
 {
 	if (SDL_Init (SDL_INIT_VIDEO) < 0) {
 		throw std::runtime_error(SDL_GetError());
@@ -47,6 +47,7 @@ View::View(Characters &chars):
 
 	texture = IMG_LoadTexture(renderer, "resources/img/capi.png");
 	bg = IMG_LoadTexture(renderer, "resources/img/park.jpeg");
+	element_texture = IMG_LoadTexture(renderer, "resources/img/capi.png");
 }
 
 View::~View()
@@ -71,6 +72,14 @@ void View::render()
 		target.y = adjust_y(character.y, target.h);
 
 		SDL_RenderCopy(renderer, texture, nullptr, &target);
+	}
+
+	for (auto element: sev.element_vector) {
+		target.w = target.h = element.size;
+		target.x = adjust_x(element.x, target.w);
+		target.y = adjust_y(element.y, target.h);
+
+		SDL_RenderCopy(renderer, element_texture, nullptr, &target);
 	}
 
 	SDL_RenderPresent(renderer);

@@ -14,3 +14,9 @@ void Scenary_element_vector::delete_element(int pos) {
     element_vector.erase(element_vector.begin()+ (pos - 1));
 
 }
+
+
+void insert_Scenary_element(Scenary_element &e, Scenary_element_vector &sev) {
+	sev.add_element(e);
+    
+}
