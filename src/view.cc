@@ -47,8 +47,8 @@ View::View(Characters &chars,Scenary_element_vector &sev,Monster_vector &mv):
 
 	texture = IMG_LoadTexture(renderer, "resources/img/capi.png");
 	bg = IMG_LoadTexture(renderer, "resources/img/bg.png");
-	element_texture = IMG_LoadTexture(renderer, "resources/img/capi.png");
-	monster_texture = IMG_LoadTexture(renderer, "resources/img/capi.png");
+	element_texture = IMG_LoadTexture(renderer, "resources/img/rock.png");
+	monster_texture = IMG_LoadTexture(renderer, "resources/img/gorilla.png");
 }
 
 View::~View()
