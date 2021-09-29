@@ -10,7 +10,7 @@ srcs = [
 	'src/view.cc',
 	'src/input.cc',
 	'src/character.cc',
-	'src/Scenary_elements.cc',
+	'src/scenery_elements.cc',
 ]
 
 executable('jogo',
