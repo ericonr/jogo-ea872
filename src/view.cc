@@ -23,9 +23,9 @@ static int adjust_y(float pos, int object_size)
 	return adjust_coord(-pos, object_size, SCREEN_HEIGHT);
 }
 
-View::View(Characters &chars,Scenary_element_vector &sev):
+View::View(Characters &chars, Scenery_element_vector &sev):
 	window(nullptr), renderer(nullptr),
-	texture(nullptr), bg(nullptr),element_texture(nullptr), chars(chars),sev(sev)
+	texture(nullptr), bg(nullptr), element_texture(nullptr), chars(chars), sev(sev)
 {
 	if (SDL_Init (SDL_INIT_VIDEO) < 0) {
 		throw std::runtime_error(SDL_GetError());

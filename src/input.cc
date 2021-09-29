@@ -7,7 +7,6 @@ Input::Input(const View &v):
 	m_should_quit(false),
 	player_vector(0)
 {
-	
 	keyboard = SDL_GetKeyboardState(&numkeys);
 }
 

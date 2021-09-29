@@ -7,37 +7,33 @@ static const float max_speed = 72.;
 static const float sqrtof2 = 1.41421356;
 
 
-
 bool doOverlap(Space_point l1, Space_point r1, Space_point l2,Space_point r2)
 {
- 
-    // To check if either rectangle is actually a line
-    // For example :  l1 ={-1,0}  r1={1,1}  l2={0,-1}
-    // r2={0,1}
- 
-    if (l1.x == r1.x || l1.y == r1.y || l2.x == r2.x
-        || l2.y == r2.y) {
-        // the line cannot have positive overlap
-        return false;
-    }
- 
-    // If one rectangle is on left side of other
-    if (l1.x >= r2.x || l2.x >= r1.x)
-        return false;
- 
-    // If one rectangle is above other
-    if (r1.y >= l2.y || r2.y >= l1.y)
-        return false;
- 
-    return true;
+	// To check if either rectangle is actually a line
+	// For example :  l1 ={-1,0}  r1={1,1}  l2={0,-1}
+	// r2={0,1}
+
+	if (l1.x == r1.x || l1.y == r1.y || l2.x == r2.x || l2.y == r2.y) {
+		// the line cannot have positive overlap
+		return false;
+	}
+
+	// If one rectangle is on left side of other
+	if (l1.x >= r2.x || l2.x >= r1.x)
+		return false;
+
+	// If one rectangle is above other
+	if (r1.y >= l2.y || r2.y >= l1.y)
+		return false;
+
+	return true;
 }
  
  
 
 void Controller::update(Input &in, float t)
 {
-	for(unsigned n_player = 0; n_player < chars.Character_vector.size(); n_player++){
-		
+	for(unsigned n_player = 0; n_player < chars.Character_vector.size(); n_player++) {
 		float dx = 0., dy = 0.;
 		if (in.movement(direction::up, n_player)) dy += max_speed * t;
 		if (in.movement(direction::down, n_player)) dy -= max_speed * t;
@@ -59,38 +55,26 @@ void Controller::update(Input &in, float t)
 		comparison_value_r.x = dx +chars.Character_vector[n_player].x + ((chars.Character_vector[n_player].width)/2);
 		comparison_value_r.y = dy +chars.Character_vector[n_player].y - ((chars.Character_vector[n_player].height)/2);
 
-
-
-		
-		
 		for(unsigned n_element = 0; n_element < sev.element_vector.size(); n_element++) {
-			
-			collision_flag = doOverlap(comparison_value_l,comparison_value_r
-			,sev.element_vector[n_element].l,sev.element_vector[n_element].r);
+			collision_flag = doOverlap(comparison_value_l, comparison_value_r,
+					sev.element_vector[n_element].l,sev.element_vector[n_element].r);
 
 			if(collision_flag == true) {
 				break;
 			}
 		}
 
-
-
 		if(collision_flag == false) {
-		
-		chars.Character_vector[n_player].x+= dx;
-		chars.Character_vector[n_player].y+= dy;
-		
-		chars.Character_vector[n_player].l = comparison_value_l;
-		chars.Character_vector[n_player].r = comparison_value_r;
-		
-		
+			chars.Character_vector[n_player].x+= dx;
+			chars.Character_vector[n_player].y+= dy;
+
+			chars.Character_vector[n_player].l = comparison_value_l;
+			chars.Character_vector[n_player].r = comparison_value_r;
 		}
 
 		std::cout <<"posição em rx do player "<< n_player << "\r\n" << chars.Character_vector[n_player].r.x<< "\r\n" ;
 		std::cout <<"posição em ry do player "<< n_player << "\r\n" << chars.Character_vector[n_player].r.y<< "\r\n" ;
 		std::cout <<"posição em lx do player "<< n_player << "\r\n" << chars.Character_vector[n_player].l.x<< "\r\n" ;
 		std::cout <<"posição em ly do player "<< n_player << "\r\n" << chars.Character_vector[n_player].l.y<< "\r\n" ;
-		
 	}
 }
-
