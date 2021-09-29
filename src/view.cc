@@ -47,7 +47,7 @@ View::View(Characters &chars, Scenery_element_vector &sev):
 
 	texture = IMG_LoadTexture(renderer, "resources/img/capi.png");
 	bg = IMG_LoadTexture(renderer, "resources/img/bg.png");
-	element_texture = IMG_LoadTexture(renderer, "resources/img/capi.png");
+	element_texture = IMG_LoadTexture(renderer, "resources/img/gorilla.png");
 }
 
 View::~View()
