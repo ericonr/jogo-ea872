@@ -8,11 +8,12 @@
 class View {
 	SDL_Window *window;
 	SDL_Renderer *renderer;
-	SDL_Texture *texture, *bg;
+	SDL_Texture *texture, *bg,*element_texture;
 	Characters &chars;
+	Scenary_element_vector &sev;
 
 	public:
-		View(Characters &chars);
+		View(Characters &chars,Scenary_element_vector &sev);
 		~View();
 
 		void render();

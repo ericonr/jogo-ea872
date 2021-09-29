@@ -58,3 +58,16 @@ class Scenary_element{
 
 
 };
+
+class Scenary_element_vector {
+	
+	public:
+		std::vector<Scenary_element> element_vector;
+
+		Scenary_element_vector() {}
+
+		void add_element(Scenary_element &element);
+		void delete_element(int pos);
+
+
+};
