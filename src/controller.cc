@@ -51,10 +51,21 @@ void Controller::update(Input &in, float t)
 		}
 
 		bool collision_flag = false;
+		Space_point comparison_value_l;
+		Space_point comparison_value_r;
+		
+		comparison_value_l.x = dx + chars.Character_vector[n_player].x - ((chars.Character_vector[n_player].width)/2);
+		comparison_value_l.y= dy +chars.Character_vector[n_player].y + ((chars.Character_vector[n_player].height)/2);
+		comparison_value_r.x = dx +chars.Character_vector[n_player].x + ((chars.Character_vector[n_player].width)/2);
+		comparison_value_r.y = dy +chars.Character_vector[n_player].y - ((chars.Character_vector[n_player].height)/2);
+
+
+
+		
 		
 		for(unsigned n_element = 0; n_element < sev.element_vector.size(); n_element++) {
 			
-			collision_flag = doOverlap(chars.Character_vector[n_player].l,chars.Character_vector[n_player].r
+			collision_flag = doOverlap(comparison_value_l,comparison_value_r
 			,sev.element_vector[n_element].l,sev.element_vector[n_element].r);
 
 			if(collision_flag == true) {
@@ -64,7 +75,7 @@ void Controller::update(Input &in, float t)
 
 
 
-		if(1) {
+		if(collision_flag == false) {
 		
 		chars.Character_vector[n_player].x+= dx;
 		chars.Character_vector[n_player].y+= dy;
