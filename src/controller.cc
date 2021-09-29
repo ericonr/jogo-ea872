@@ -80,10 +80,9 @@ void Controller::update(Input &in, float t)
 		chars.Character_vector[n_player].x+= dx;
 		chars.Character_vector[n_player].y+= dy;
 		
-		chars.Character_vector[n_player].l.x = chars.Character_vector[n_player].x - ((chars.Character_vector[n_player].width)/2);
-		chars.Character_vector[n_player].l.y = chars.Character_vector[n_player].y + ((chars.Character_vector[n_player].height)/2);
-		chars.Character_vector[n_player].r.x = chars.Character_vector[n_player].x + ((chars.Character_vector[n_player].width)/2);
-		chars.Character_vector[n_player].r.y = chars.Character_vector[n_player].y - ((chars.Character_vector[n_player].height)/2);
+		chars.Character_vector[n_player].l = comparison_value_l;
+		chars.Character_vector[n_player].r = comparison_value_r;
+		
 		
 		}
 
