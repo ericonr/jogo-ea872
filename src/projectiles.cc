@@ -1,18 +1,15 @@
+#include <vector>
+
 #include "models.h"
 #include "view.h"
 #include "general_func.h"
-#include <vector>
-
-
 
 Character_projectile::Character_projectile(Character &c):c(c){}
-
 
 void Character_projectile::sum_id_counter() {
     id_counter += 1;
 
 }
-
 
 void Character_projectile::fire_new_projectile() {
     

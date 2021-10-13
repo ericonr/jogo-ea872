@@ -20,7 +20,6 @@ void Input::add_player(Player &p){
 }
 
 void Input::delete_player(int pos){
-
 	player_vector.erase(player_vector.begin()+ (pos - 1));
 }
 
@@ -31,5 +30,4 @@ void insert_playable_character(Character &c,Player &p, Input &in, Characters &ch
 	chars.add_character(c);
 	in.add_player(p);
 	cpv.add_projectile_vector(cp);
-
 }

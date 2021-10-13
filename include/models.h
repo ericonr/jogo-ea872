@@ -112,7 +112,6 @@ class Monster {
 };
 
 class Monster_vector {
-	
 	public:
 		std::vector <Monster> enemy_vector;
 
@@ -120,7 +119,6 @@ class Monster_vector {
 
 		void add_monster(Monster &element);
 		void delete_monster(int pos);
-
 };
 
 
@@ -130,11 +128,10 @@ class Character_projectile {
 		Character &c;
 		int id_counter;
 		Character_projectile(Character &c);
-		
+
 		void fire_new_projectile();
 		void delete_projectile(int id);
 		void sum_id_counter();
-
 };
 
 class Character_projectile_vector {

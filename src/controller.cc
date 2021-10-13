@@ -60,10 +60,6 @@ void Controller::update(Input &in, float t)
 		comparison_value_l.y= dy +chars.Character_vector[n_player].y + ((chars.Character_vector[n_player].height)/2);
 		comparison_value_r.x = dx +chars.Character_vector[n_player].x + ((chars.Character_vector[n_player].width)/2);
 		comparison_value_r.y = dy +chars.Character_vector[n_player].y - ((chars.Character_vector[n_player].height)/2);
-
-
-
-		
 		
 		for(unsigned n_element = 0; n_element < sev.element_vector.size(); n_element++) {
 			
@@ -75,17 +71,12 @@ void Controller::update(Input &in, float t)
 			}
 		}
 
-
-
 		if(collision_flag == false) {
-		
-		chars.Character_vector[n_player].x+= dx;
-		chars.Character_vector[n_player].y+= dy;
-		
-		chars.Character_vector[n_player].l = comparison_value_l;
-		chars.Character_vector[n_player].r = comparison_value_r;
-		
-		
+			chars.Character_vector[n_player].x+= dx;
+			chars.Character_vector[n_player].y+= dy;
+
+			chars.Character_vector[n_player].l = comparison_value_l;
+			chars.Character_vector[n_player].r = comparison_value_r;
 		}
 
 		/*std::cout <<"posição em rx do player "<< n_player << "\r\n" << chars.Character_vector[n_player].r.x<< "\r\n" ;
