@@ -16,32 +16,18 @@ struct Space_point {
 	float y;
 };
 
-
-struct Individual_projectile {
-	float x;
-	float y;
-	int id;
-	int direction;
-};
-
-
 class Character {
 	public:
 		float x, y;
+		float last_shot_time;
 	
+		Character(float x, float y, int size, float height, float width);
+
 		Space_point l,r;
 		int size;
 		float height,width;
 		unsigned long id;
-		
-		Character(float x, float y, int size, float height, float width): x(x), y(y), size(size), height(height),width(width) {
-		  
-		  	l.x = x - (width/2);
-    		l.y = y + (height/2);
-  	  		r.x = x + (width/2);
-    		r.y = y - (height/2);
-			
-		}
+		int last_direction;
 };
 
 class Characters {
@@ -113,8 +99,6 @@ class Monster {
 			center_y = y;
 			
 		}	
-		
-
 };
 
 class Monster_vector {
@@ -128,28 +112,18 @@ class Monster_vector {
 };
 
 
-class Character_projectile {
-	public:
-		std::vector<Individual_projectile> character_individual_projectile;
-		Character &c;
-		int id_counter;
-		Character_projectile(Character &c);
-		float last_shot_time;
-
-		void fire_new_projectile(int direction);
-		void delete_projectile(int id);
-		void sum_id_counter();
+struct Individual_projectile {
+	float x;
+	float y;
+	int direction;
 };
 
-class Character_projectile_vector {
-	
+class Projectile_vector {
 	public:
-		std::vector <Character_projectile*> all_projectile_vector;
+		std::vector <Individual_projectile> all_projectile_vector;
 
-		Character_projectile_vector() {}
+		Projectile_vector() {};
 
-		void add_projectile_vector(Character_projectile *character_project);
-		void delete_projectile_vector(int pos);
-
-
+		void fire_new_projectile(const Character &c);
+		void delete_projectile(unsigned id);
 };

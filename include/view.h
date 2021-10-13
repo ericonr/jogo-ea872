@@ -12,10 +12,10 @@ class View {
 	Characters &chars;
 	Scenary_element_vector &sev;
 	Monster_vector &mv;
-	Character_projectile_vector &cv;
+	Projectile_vector &pv;
 
 	public:
-		View(Characters &chars,Scenary_element_vector &sev, Monster_vector &mv, Character_projectile_vector &cv);
+		View(Characters &chars,Scenary_element_vector &sev, Monster_vector &mv, Projectile_vector &pv);
 		~View();
 
 		void render();

@@ -41,10 +41,13 @@ void Controller::update(Input &in, float t)
 	for(unsigned n_player = 0; n_player < chars.Character_vector.size(); n_player++){
 		
 		float dx = 0., dy = 0.;
-		if (in.movement(direction::up, n_player)) dy += max_speed * t;
-		if (in.movement(direction::down, n_player)) dy -= max_speed * t;
-		if (in.movement(direction::left, n_player)) dx -= max_speed * t;
-		if (in.movement(direction::right, n_player)) dx += max_speed * t;
+		int direction = -1;
+		if (in.movement(direction::up, n_player)) {dy += max_speed * t; direction = direction::up;}
+		if (in.movement(direction::down, n_player)) {dy -= max_speed * t; direction = direction::down;}
+		if (in.movement(direction::left, n_player)) {dx -= max_speed * t; direction = direction::left;}
+		if (in.movement(direction::right, n_player)) {dx += max_speed * t; direction = direction::right;}
+
+		if (direction != -1) chars.Character_vector[n_player].last_direction = direction;
 
 		// módulo da velocidade = max_speed
 		if (dx != 0 && dy != 0) {
@@ -52,19 +55,9 @@ void Controller::update(Input &in, float t)
 			dy /= sqrtof2;
 		}
 
-		if (time_elapsed - pv.all_projectile_vector[n_player]->last_shot_time >= 1.f) {
-			int direction = -1;
-			if (in.movement(direction::up, n_player)) direction = direction::up;
-			else if (in.movement(direction::down, n_player)) direction = direction::down;
-			else if (in.movement(direction::left, n_player)) direction = direction::left;
-			else if (in.movement(direction::right, n_player)) direction = direction::right;
-
-			// só atira se estiver se movendo
-			if (direction != -1) {
-				std::cout << "atirando\n";
-				pv.all_projectile_vector[n_player]->last_shot_time = time_elapsed;
-				pv.all_projectile_vector[n_player]->fire_new_projectile(direction);
-			}
+		if (time_elapsed - chars.Character_vector[n_player].last_shot_time >= 1.f) {
+			chars.Character_vector[n_player].last_shot_time = time_elapsed;
+			pv.fire_new_projectile(chars.Character_vector[n_player]);
 		}
 
 		bool collision_flag = false;
@@ -93,31 +86,21 @@ void Controller::update(Input &in, float t)
 			chars.Character_vector[n_player].l = comparison_value_l;
 			chars.Character_vector[n_player].r = comparison_value_r;
 		}
-
-		/*std::cout <<"posição em rx do player "<< n_player << "\r\n" << chars.Character_vector[n_player].r.x<< "\r\n" ;
-		std::cout <<"posição em ry do player "<< n_player << "\r\n" << chars.Character_vector[n_player].r.y<< "\r\n" ;
-		std::cout <<"posição em lx do player "<< n_player << "\r\n" << chars.Character_vector[n_player].l.x<< "\r\n" ;
-		std::cout <<"posição em ly do player "<< n_player << "\r\n" << chars.Character_vector[n_player].l.y<< "\r\n" ;
-		*/
 	}
 
-	for(unsigned n_monsters = 0; n_monsters < mv.enemy_vector.size();n_monsters++){
-
+	for(unsigned n_monsters = 0; n_monsters < mv.enemy_vector.size();n_monsters++) {
 		mv.enemy_vector[n_monsters].x = mv.enemy_vector[n_monsters].center_x + (MONSTER_OSC_AMP *cos(2 * PI * MONSTER_OSC_FREQ * time_elapsed));
-		//std::cout <<"posição em x do monstro "<< n_monsters << "\r\n" << mv.enemy_vector[n_monsters].x << "\r\n" ;
 	}
 
-	for (auto &projetil: pv.all_projectile_vector) {
-		for (auto &p: projetil->character_individual_projectile) {
-			float dx=0, dy=0;
-			float speed = 30;
-			if (p.direction == direction::up) dy=speed;
-			if (p.direction == direction::down) dy=-speed;
-			if (p.direction == direction::left) dx=-speed;
-			if (p.direction == direction::right) dx=speed;
-			p.x += dx*t;
-			p.y += dy*t;
-		}
+	for (auto &p: pv.all_projectile_vector) {
+		float dx=0, dy=0;
+		float speed = 30;
+		if (p.direction == direction::up) dy=speed;
+		if (p.direction == direction::down) dy=-speed;
+		if (p.direction == direction::left) dx=-speed;
+		if (p.direction == direction::right) dx=speed;
+		p.x += dx*t;
+		p.y += dy*t;
 	}
 
 	time_elapsed += t;
