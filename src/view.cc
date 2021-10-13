@@ -23,7 +23,7 @@ static int adjust_y(float pos, int object_size)
 	return adjust_coord(-pos, object_size, SCREEN_HEIGHT);
 }
 
-View::View(Characters &chars,Scenary_element_vector &sev,Monster_vector &mv, Projectile_vector &pv):
+View::View(Characters &chars,Scenery_element_vector &sev,Monster_vector &mv, Projectile_vector &pv):
 	window(nullptr), renderer(nullptr),
 		texture(nullptr), bg(nullptr),element_texture(nullptr), chars(chars),sev(sev),mv(mv),pv(pv)
 {

@@ -40,7 +40,7 @@ class Characters {
 		void delete_character(int pos);
 };
 
-class Scenary_element{
+class Scenery_element{
 	public:
 		float x,y;
 		int size;
@@ -49,7 +49,7 @@ class Scenary_element{
 		unsigned long id;
 		Space_point l,r;
 		
-		Scenary_element(float x, float y, int size, float height, float width): x(x), y(y), size(size), height(height),width(width) {
+		Scenery_element(float x, float y, int size, float height, float width): x(x), y(y), size(size), height(height),width(width) {
 		  
 		  	l.x = x - (width/2);
     		l.y = y + (height/2);
@@ -62,14 +62,14 @@ class Scenary_element{
 
 };
 
-class Scenary_element_vector {
+class Scenery_element_vector {
 	
 	public:
-		std::vector<Scenary_element> element_vector;
+		std::vector<Scenery_element> element_vector;
 
-		Scenary_element_vector() {}
+		Scenery_element_vector() {}
 
-		void add_element(Scenary_element &element);
+		void add_element(Scenery_element &element);
 		void delete_element(int pos);
 
 

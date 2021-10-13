@@ -10,12 +10,12 @@ class View {
 	SDL_Renderer *renderer;
 	SDL_Texture *texture, *bg,*element_texture ,*monster_texture, *banana_texture;
 	Characters &chars;
-	Scenary_element_vector &sev;
+	Scenery_element_vector &sev;
 	Monster_vector &mv;
 	Projectile_vector &pv;
 
 	public:
-		View(Characters &chars,Scenary_element_vector &sev, Monster_vector &mv, Projectile_vector &pv);
+		View(Characters &chars,Scenery_element_vector &sev, Monster_vector &mv, Projectile_vector &pv);
 		~View();
 
 		void render();
