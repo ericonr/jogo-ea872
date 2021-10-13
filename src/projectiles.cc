@@ -37,7 +37,7 @@ void Character_projectile::delete_projectile(int id){
     }
 }
 
-void Character_projectile_vector::add_projectile_vector(Character_projectile &cp)
+void Character_projectile_vector::add_projectile_vector(Character_projectile *cp)
 {
     all_projectile_vector.push_back(cp);
 }

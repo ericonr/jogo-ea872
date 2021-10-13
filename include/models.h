@@ -140,11 +140,11 @@ class Character_projectile {
 class Character_projectile_vector {
 	
 	public:
-		std::vector <Character_projectile> all_projectile_vector;
+		std::vector <Character_projectile*> all_projectile_vector;
 
 		Character_projectile_vector() {}
 
-		void add_projectile_vector( Character_projectile &character_project);
+		void add_projectile_vector(Character_projectile *character_project);
 		void delete_projectile_vector(int pos);
 
 

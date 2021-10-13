@@ -33,8 +33,8 @@ int main(int argc, char **argv)
 	View v{vetor_personagem,vetor_elementos,vetor_monstros};
 	Input in{v};
 	
-	insert_playable_character(c0,p0,in,vetor_personagem,cp0,vetor_projeteis);
-	insert_playable_character(c1,p1,in,vetor_personagem,cp1,vetor_projeteis);
+	insert_playable_character(c0,p0,in,vetor_personagem,&cp0,vetor_projeteis);
+	insert_playable_character(c1,p1,in,vetor_personagem,&cp1,vetor_projeteis);
 	insert_Scenary_element(e1,vetor_elementos);
 	insert_Scenary_element(e2,vetor_elementos);
 	insert_Monster(m0,vetor_monstros);
