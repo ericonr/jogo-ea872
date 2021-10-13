@@ -6,6 +6,8 @@
 // 20 km/h = 72 m/s
 static const float max_speed = 72.;
 
+static const float projectile_speed = 90;
+
 static const float sqrtof2 = 1.41421356;
 
 
@@ -96,11 +98,10 @@ void Controller::update(Input &in, float t)
 
 	for (auto &p: pv.all_projectile_vector) {
 		float dx=0, dy=0;
-		float speed = 30;
-		if (p.direction == direction::up) dy=speed;
-		if (p.direction == direction::down) dy=-speed;
-		if (p.direction == direction::left) dx=-speed;
-		if (p.direction == direction::right) dx=speed;
+		if (p.direction == direction::up) dy = projectile_speed;
+		if (p.direction == direction::down) dy = -projectile_speed;
+		if (p.direction == direction::left) dx = -projectile_speed;
+		if (p.direction == direction::right) dx = projectile_speed;
 		p.x += dx*t;
 		p.y += dy*t;
 	}
