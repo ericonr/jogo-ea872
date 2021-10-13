@@ -1,5 +1,7 @@
 #include "controller.h"
 #include "models.h"
+#include <math.h>  
+
 
 // 20 km/h = 72 m/s
 static const float max_speed = 72.;
@@ -86,11 +88,21 @@ void Controller::update(Input &in, float t)
 		
 		}
 
-		std::cout <<"posição em rx do player "<< n_player << "\r\n" << chars.Character_vector[n_player].r.x<< "\r\n" ;
+		/*std::cout <<"posição em rx do player "<< n_player << "\r\n" << chars.Character_vector[n_player].r.x<< "\r\n" ;
 		std::cout <<"posição em ry do player "<< n_player << "\r\n" << chars.Character_vector[n_player].r.y<< "\r\n" ;
 		std::cout <<"posição em lx do player "<< n_player << "\r\n" << chars.Character_vector[n_player].l.x<< "\r\n" ;
 		std::cout <<"posição em ly do player "<< n_player << "\r\n" << chars.Character_vector[n_player].l.y<< "\r\n" ;
-		
+		*/
 	}
+
+	for(unsigned n_monsters = 0; n_monsters < mv.enemy_vector.size();n_monsters++){
+
+		mv.enemy_vector[n_monsters].x = mv.enemy_vector[n_monsters].center_x + (MONSTER_OSC_AMP *cos(2 * PI * MONSTER_OSC_FREQ * time_elapsed));
+		std::cout <<"posição em x do monstro "<< n_monsters << "\r\n" << mv.enemy_vector[n_monsters].x << "\r\n" ;
+	}
+
+	time_elapsed += t;
+
+
 }
 

@@ -11,6 +11,7 @@ srcs = [
 	'src/input.cc',
 	'src/character.cc',
 	'src/Scenary_elements.cc',
+	'src/monster.cc',
 ]
 
 executable('jogo',

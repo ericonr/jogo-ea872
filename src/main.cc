@@ -9,8 +9,12 @@ static const float T = 0.01;
 
 int main(int argc, char **argv)
 {
-	Character c0{0, 0, 50,5,5};
-	Character c1{0, 0, 50,5,5};
+	Character c0{0,0,50,5,5};
+	Character c1{0,0,50,5,5};
+	
+	Monster m0{0,10,50,5,5};
+	Monster m1{5,10,50,5,5};
+
 	Scenary_element e1 {10,10,50,5,5};
 	Scenary_element e2 {-10,-10,50,5,5};
 
@@ -21,6 +25,7 @@ int main(int argc, char **argv)
 
 	Characters vetor_personagem;
 	Scenary_element_vector vetor_elementos;
+	Monster_vector vetor_monstros;
 	View v{vetor_personagem,vetor_elementos};
 	Input in{v};
 	
@@ -28,10 +33,12 @@ int main(int argc, char **argv)
 	insert_playable_character(c1,p1,in,vetor_personagem);
 	insert_Scenary_element(e1,vetor_elementos);
 	insert_Scenary_element(e2,vetor_elementos);
+	insert_Monster(m0,vetor_monstros);
+	insert_Monster(m1,vetor_monstros);
 
 	
 
-	Controller control{vetor_personagem, vetor_elementos};
+	Controller control{vetor_personagem, vetor_elementos, vetor_monstros};
 	
 
 	while(!in.should_quit()) {
