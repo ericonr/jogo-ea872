@@ -11,12 +11,13 @@ void Character_projectile::sum_id_counter() {
 
 }
 
-void Character_projectile::fire_new_projectile() {
+void Character_projectile::fire_new_projectile(int direction) {
     
     Individual_projectile base_projectile;
     base_projectile.x = c.x;
     base_projectile.y = c.y;
     base_projectile.id = id_counter;
+    base_projectile.direction = direction;
     sum_id_counter();
 
     character_individual_projectile.push_back(base_projectile);

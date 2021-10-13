@@ -21,6 +21,7 @@ struct Individual_projectile {
 	float x;
 	float y;
 	int id;
+	int direction;
 };
 
 
@@ -133,8 +134,9 @@ class Character_projectile {
 		Character &c;
 		int id_counter;
 		Character_projectile(Character &c);
+		float last_shot_time;
 
-		void fire_new_projectile();
+		void fire_new_projectile(int direction);
 		void delete_projectile(int id);
 		void sum_id_counter();
 };

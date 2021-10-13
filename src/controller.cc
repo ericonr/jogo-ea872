@@ -52,6 +52,21 @@ void Controller::update(Input &in, float t)
 			dy /= sqrtof2;
 		}
 
+		if (time_elapsed - pv.all_projectile_vector[n_player]->last_shot_time >= 1.f) {
+			int direction = -1;
+			if (in.movement(direction::up, n_player)) direction = direction::up;
+			else if (in.movement(direction::down, n_player)) direction = direction::down;
+			else if (in.movement(direction::left, n_player)) direction = direction::left;
+			else if (in.movement(direction::right, n_player)) direction = direction::right;
+
+			// só atira se estiver se movendo
+			if (direction != -1) {
+				std::cout << "atirando\n";
+				pv.all_projectile_vector[n_player]->last_shot_time = time_elapsed;
+				pv.all_projectile_vector[n_player]->fire_new_projectile(direction);
+			}
+		}
+
 		bool collision_flag = false;
 		Space_point comparison_value_l;
 		Space_point comparison_value_r;
@@ -92,8 +107,19 @@ void Controller::update(Input &in, float t)
 		//std::cout <<"posição em x do monstro "<< n_monsters << "\r\n" << mv.enemy_vector[n_monsters].x << "\r\n" ;
 	}
 
+	for (auto &projetil: pv.all_projectile_vector) {
+		for (auto &p: projetil->character_individual_projectile) {
+			float dx=0, dy=0;
+			float speed = 30;
+			if (p.direction == direction::up) dy=speed;
+			if (p.direction == direction::down) dy=-speed;
+			if (p.direction == direction::left) dx=-speed;
+			if (p.direction == direction::right) dx=speed;
+			p.x += dx*t;
+			p.y += dy*t;
+		}
+	}
+
 	time_elapsed += t;
-
-
 }
 

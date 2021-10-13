@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 	Scenary_element_vector vetor_elementos;
 	Monster_vector vetor_monstros;
 	Character_projectile_vector vetor_projeteis;
-	View v{vetor_personagem,vetor_elementos,vetor_monstros};
+	View v{vetor_personagem,vetor_elementos,vetor_monstros,vetor_projeteis};
 	Input in{v};
 
 	insert_playable_character(c0,p0,in,vetor_personagem,&cp0,vetor_projeteis);
@@ -38,54 +38,12 @@ int main(int argc, char **argv)
 	insert_Monster(m0,vetor_monstros);
 	insert_Monster(m1,vetor_monstros);
 
-	Controller control{vetor_personagem, vetor_elementos, vetor_monstros};
-	
-// Teste das funcoes de insercao e delet de projeteis
-	cp0.fire_new_projectile();
+	Controller control{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis};
 
-	std::cout <<"apos a primeira insercao temos\r\n";
-	for (auto projeteis: cp0.character_individual_projectile) {
-		std::cout <<"Temos o projetel "<< "\r\n" << projeteis.x << "\r\n" << projeteis.y << "\r\n" <<projeteis.id<< "\r\n";
-	}
-
-
-
-	c0.x = 100;
-	c0.y = 100;
-
-	cp0.fire_new_projectile();
-
-	std::cout <<"apos a segunda insercao temos\r\n";
-	for (auto projeteis: cp0.character_individual_projectile) {
-		std::cout <<"Temos o projetel " << "\r\n" << projeteis.x << "\r\n" << projeteis.y << "\r\n" <<projeteis.id<< "\r\n";
-	}
-
-	c0.x = 250;
-	c0.y = 300;
-
-
-	cp0.fire_new_projectile();
-
-
-	std::cout <<"apos a terceira insercao temos\r\n";
-	for (auto projeteis: cp0.character_individual_projectile) {
-		std::cout <<"Temos o projetel "<< "\r\n" << projeteis.x << "\r\n" << projeteis.y << "\r\n" <<projeteis.id<< "\r\n";
-	}
-
-	cp0.delete_projectile(1);
-
-	std::cout <<"apos a 4 insercao temos\r\n";
-	for (auto projeteis: cp0.character_individual_projectile) {
-		std::cout <<"Temos o projetel "<< "\r\n" << projeteis.x << "\r\n" << projeteis.y << "\r\n" <<projeteis.id<< "\r\n";
-	}
-
-
-/*
 	while(!in.should_quit()) {
 		v.render();
 		in.refresh();
 		control.update(in, T);
 		v.delay(T);
 	} 
-	*/
 }

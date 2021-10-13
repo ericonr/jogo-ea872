@@ -23,9 +23,9 @@ static int adjust_y(float pos, int object_size)
 	return adjust_coord(-pos, object_size, SCREEN_HEIGHT);
 }
 
-View::View(Characters &chars,Scenary_element_vector &sev,Monster_vector &mv):
+View::View(Characters &chars,Scenary_element_vector &sev,Monster_vector &mv, Character_projectile_vector &cv):
 	window(nullptr), renderer(nullptr),
-	texture(nullptr), bg(nullptr),element_texture(nullptr), chars(chars),sev(sev),mv(mv)
+		texture(nullptr), bg(nullptr),element_texture(nullptr), chars(chars),sev(sev),mv(mv),cv(cv)
 {
 	if (SDL_Init (SDL_INIT_VIDEO) < 0) {
 		throw std::runtime_error(SDL_GetError());
@@ -49,6 +49,7 @@ View::View(Characters &chars,Scenary_element_vector &sev,Monster_vector &mv):
 	bg = IMG_LoadTexture(renderer, "resources/img/bg.png");
 	element_texture = IMG_LoadTexture(renderer, "resources/img/rock.png");
 	monster_texture = IMG_LoadTexture(renderer, "resources/img/gorilla.png");
+	banana_texture = IMG_LoadTexture(renderer, "resources/img/banana.png");
 }
 
 View::~View()
@@ -90,6 +91,15 @@ void View::render()
 		target.y = adjust_y(monster.y, target.h);
 
 		SDL_RenderCopy(renderer, monster_texture, nullptr, &target);
+	}
+
+	for (auto projetil: cv.all_projectile_vector) {
+		for (auto p: projetil->character_individual_projectile) {
+			target.w = target.h = 20;
+			target.x = adjust_x(p.x, target.w);
+			target.y = adjust_y(p.y, target.h);
+			SDL_RenderCopy(renderer, banana_texture, nullptr, &target);
+		}
 	}
 
 	SDL_RenderPresent(renderer);
