@@ -38,8 +38,9 @@ bool doOverlap(Space_point l1, Space_point r1, Space_point l2,Space_point r2)
 
 void Controller::update(Input &in, float t)
 {
-	for(unsigned n_player = 0; n_player < chars.Character_vector.size(); n_player++){
-		
+	for(unsigned n_player = 0; n_player < chars.Character_vector.size(); n_player++) {
+		auto &c = chars.Character_vector[n_player];
+
 		float dx = 0., dy = 0.;
 		int direction = -1;
 		if (in.movement(direction::up, n_player)) {dy += max_speed * t; direction = direction::up;}
@@ -47,7 +48,7 @@ void Controller::update(Input &in, float t)
 		if (in.movement(direction::left, n_player)) {dx -= max_speed * t; direction = direction::left;}
 		if (in.movement(direction::right, n_player)) {dx += max_speed * t; direction = direction::right;}
 
-		if (direction != -1) chars.Character_vector[n_player].last_direction = direction;
+		if (direction != -1) c.last_direction = direction;
 
 		// módulo da velocidade = max_speed
 		if (dx != 0 && dy != 0) {
@@ -55,15 +56,16 @@ void Controller::update(Input &in, float t)
 			dy /= sqrtof2;
 		}
 
-		if (time_elapsed - chars.Character_vector[n_player].last_shot_time >= 1.f) {
-			chars.Character_vector[n_player].last_shot_time = time_elapsed;
-			pv.fire_new_projectile(chars.Character_vector[n_player]);
+		// esperar ter se movido em alguma direção
+		if (time_elapsed - c.last_shot_time >= 1.f && c.last_direction != -1) {
+			c.last_shot_time = time_elapsed;
+			pv.fire_new_projectile(c);
 		}
 
 		bool collision_flag = false;
 		Space_point comparison_value_l;
 		Space_point comparison_value_r;
-		
+
 		comparison_value_l.x = dx + chars.Character_vector[n_player].x - ((chars.Character_vector[n_player].width)/2);
 		comparison_value_l.y= dy +chars.Character_vector[n_player].y + ((chars.Character_vector[n_player].height)/2);
 		comparison_value_r.x = dx +chars.Character_vector[n_player].x + ((chars.Character_vector[n_player].width)/2);
