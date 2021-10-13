@@ -23,9 +23,9 @@ static int adjust_y(float pos, int object_size)
 	return adjust_coord(-pos, object_size, SCREEN_HEIGHT);
 }
 
-View::View(Characters &chars,Scenary_element_vector &sev):
+View::View(Characters &chars,Scenary_element_vector &sev,Monster_vector &mv):
 	window(nullptr), renderer(nullptr),
-	texture(nullptr), bg(nullptr),element_texture(nullptr), chars(chars),sev(sev)
+	texture(nullptr), bg(nullptr),element_texture(nullptr), chars(chars),sev(sev),mv(mv)
 {
 	if (SDL_Init (SDL_INIT_VIDEO) < 0) {
 		throw std::runtime_error(SDL_GetError());
@@ -48,6 +48,7 @@ View::View(Characters &chars,Scenary_element_vector &sev):
 	texture = IMG_LoadTexture(renderer, "resources/img/capi.png");
 	bg = IMG_LoadTexture(renderer, "resources/img/park.jpeg");
 	element_texture = IMG_LoadTexture(renderer, "resources/img/capi.png");
+	monster_texture = IMG_LoadTexture(renderer, "resources/img/capi.png");
 }
 
 View::~View()
@@ -80,6 +81,15 @@ void View::render()
 		target.y = adjust_y(element.y, target.h);
 
 		SDL_RenderCopy(renderer, element_texture, nullptr, &target);
+	}
+
+
+	for (auto monster: mv.enemy_vector) {
+		target.w = target.h = monster.size;
+		target.x = adjust_x(monster.x, target.w);
+		target.y = adjust_y(monster.y, target.h);
+
+		SDL_RenderCopy(renderer, monster_texture, nullptr, &target);
 	}
 
 	SDL_RenderPresent(renderer);

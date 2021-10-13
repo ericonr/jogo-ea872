@@ -3,7 +3,7 @@
 #include <iostream>
 
 #define MONSTER_OSC_AMP 5
-#define MONSTER_OSC_FREQ 0.1
+#define MONSTER_OSC_FREQ 1
 #define PI 3.14159265
 
 struct Space_point {
@@ -11,6 +11,12 @@ struct Space_point {
 	float y;
 };
 
+
+struct Individual_projectile {
+	float x;
+	float y;
+	int id;
+};
 
 
 class Character {
@@ -88,9 +94,6 @@ class Monster {
 		Space_point l,r;
 		float center_x;
 		float center_y;
-
-
-		
 		unsigned long id;
 		
 		Monster(float x, float y, int size, float height, float width): x(x), y(y), size(size), height(height),width(width) {
@@ -117,5 +120,32 @@ class Monster_vector {
 
 		void add_monster(Monster &element);
 		void delete_monster(int pos);
+
+};
+
+
+class Character_projectile {
+	public:
+		std::vector<Individual_projectile> character_individual_projectile;
+		Character &c;
+		int id_counter;
+		Character_projectile(Character &c);
+		
+		void fire_new_projectile();
+		void delete_projectile(int id);
+		void sum_id_counter();
+
+};
+
+class Character_projectile_vector {
+	
+	public:
+		std::vector <Monster> enemy_vector;
+
+		Character_projectile_vector() {}
+
+		void add_projectile_vector( Character_projectile &character_project);
+		void delete_projectile_vector(int pos);
+
 
 };
