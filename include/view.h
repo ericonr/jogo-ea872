@@ -5,33 +5,37 @@
 
 #include "models.h"
 
-class View {
+class View
+{
 	SDL_Window *window;
 	SDL_Renderer *renderer;
-	SDL_Texture *texture, *bg,*element_texture ,*monster_texture, *banana_texture;
+	SDL_Texture *texture, *bg, *element_texture, *monster_texture,
+		*banana_texture;
 	Characters &chars;
 	Scenery_element_vector &sev;
 	Monster_vector &mv;
 	Projectile_vector &pv;
 
 	public:
-		View(Characters &chars,Scenery_element_vector &sev, Monster_vector &mv, Projectile_vector &pv);
-		~View();
+	View(Characters &chars, Scenery_element_vector &sev, Monster_vector &mv,
+		 Projectile_vector &pv);
+	~View();
 
-		void render();
-		void delay(float t);
+	void render();
+	void delay(float t);
 };
 
 struct Player {
 	unsigned movement;
 	unsigned long id;
-	enum {keyboard, online} type;
+	enum { keyboard, online } type;
 
 	// keyboard
 	int keys[4];
 };
 
-class Input {
+class Input
+{
 	SDL_Event event;
 	const Uint8 *keyboard;
 	int numkeys;
@@ -39,12 +43,15 @@ class Input {
 	bool m_should_quit;
 
 	public:
-		std::vector<Player> player_vector;
-		Input(const View &v);
+	std::vector<Player> player_vector;
+	Input(const View &v);
 
-		void refresh();
-		bool should_quit() { return m_should_quit; }
-		bool movement(int direction, unsigned n_player);
-		void add_player(Player &p);
-		void delete_player(int pos);
+	void refresh();
+	bool should_quit()
+	{
+		return m_should_quit;
+	}
+	bool movement(int direction, unsigned n_player);
+	void add_player(Player &p);
+	void delete_player(int pos);
 };

@@ -1,20 +1,20 @@
 #include <vector>
 
+#include "general_func.h"
 #include "models.h"
 #include "view.h"
-#include "general_func.h"
 
 void Projectile_vector::fire_new_projectile(const Character &c)
 {
-	 Individual_projectile base_projectile;
-	 base_projectile.x = c.x;
-	 base_projectile.y = c.y;
-	 base_projectile.direction = c.last_direction;
+	Individual_projectile base_projectile;
+	base_projectile.x = c.x;
+	base_projectile.y = c.y;
+	base_projectile.direction = c.last_direction;
 
-	 all_projectile_vector.push_back(base_projectile);
+	all_projectile_vector.push_back(base_projectile);
 }
 
 void Projectile_vector::delete_projectile(unsigned id)
 {
-	all_projectile_vector.erase(all_projectile_vector.begin()+id);
+	all_projectile_vector.erase(all_projectile_vector.begin() + id);
 }
