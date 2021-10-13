@@ -140,7 +140,7 @@ class Character_projectile {
 class Character_projectile_vector {
 	
 	public:
-		std::vector <Monster> enemy_vector;
+		std::vector <Character_projectile> all_projectile_vector;
 
 		Character_projectile_vector() {}
 

@@ -14,9 +14,6 @@ void Character_projectile::sum_id_counter() {
 }
 
 
-
-
-
 void Character_projectile::fire_new_projectile() {
     
     Individual_projectile base_projectile;
@@ -40,5 +37,7 @@ void Character_projectile::delete_projectile(int id){
     }
 }
 
-
-
+void Character_projectile_vector::add_projectile_vector(Character_projectile &cp)
+{
+    all_projectile_vector.push_back(cp);
+}
