@@ -21,11 +21,6 @@ class View {
 		void delay(float t);
 };
 
-namespace direction {
-	const int up = 0, down = 1, left = 2, right = 3;
-	const int max = 4;
-}
-
 struct Player {
 	unsigned movement;
 	unsigned long id;

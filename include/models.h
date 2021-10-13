@@ -6,6 +6,11 @@
 #define MONSTER_OSC_FREQ 1
 #define PI 3.14159265
 
+namespace direction {
+	const int up = 0, down = 1, left = 2, right = 3;
+	const int max = 5;
+}
+
 struct Space_point {
 	float x;
 	float y;
