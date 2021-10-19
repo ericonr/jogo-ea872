@@ -13,6 +13,12 @@ static const float sqrtof2 = 1.41421356;
 static const float projectile_height = 5.0;
 static const float projectile_width = 5.0;
 
+static const float negative_boad_limit_x = -100;
+static const float positive_boad_limit_x = 100;
+
+static const float negative_boad_limit_y = -100;
+static const float positive_boad_limit_y = 100;
+
 bool doOverlap(Space_point l1, Space_point r1, Space_point l2, Space_point r2)
 {
 
@@ -122,6 +128,15 @@ void Controller::update(Input &in, float t)
 		Space_point Projectile_hit_l;
 		Space_point Projectile_hit_r;
 
+
+		// deleta quando sai da tela
+		if(p.x < negative_boad_limit_x || p.x > positive_boad_limit_x || 
+		p.y < negative_boad_limit_y || p.y > positive_boad_limit_y) {
+			
+			pv.delete_projectile(p.id);
+
+		}
+
 		Projectile_hit_l.x = p.x - (projectile_width/2);
 		Projectile_hit_l.y = p.y + (projectile_height/2);
 		
@@ -138,6 +153,7 @@ void Controller::update(Input &in, float t)
 		bool Projectile_hit_flag = false;
 		for(auto &m: mv.enemy_vector) {
 			
+			// deleta projetil na colisao
 			Projectile_hit_flag = doOverlap( Projectile_hit_l, Projectile_hit_r, m.l,m.r);
 			if(Projectile_hit_flag == true) {
 
