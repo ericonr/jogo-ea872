@@ -96,10 +96,7 @@ class Monster
 		: x(x), y(y), size(size), height(height), width(width)
 	{
 
-		l.x = x - (width / 2);
-		l.y = y + (height / 2);
-		r.x = x + (width / 2);
-		r.y = y - (height / 2);
+		 calc_bordas_();
 
 		
 	}
@@ -125,15 +122,18 @@ struct Individual_projectile {
 	float x;
 	float y;
 	int direction;
+	int id;
 };
 
 class Projectile_vector
 {
 	public:
 	std::vector<Individual_projectile> all_projectile_vector;
+	int id_counter;
 
 	Projectile_vector(){};
 
 	void fire_new_projectile(const Character &c);
 	void delete_projectile(unsigned id);
+	void sum_id_counter();
 };

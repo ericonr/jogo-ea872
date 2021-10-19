@@ -10,6 +10,9 @@ static const float projectile_speed = 90;
 
 static const float sqrtof2 = 1.41421356;
 
+static const float projectile_height = 5.0;
+static const float projectile_width = 5.0;
+
 bool doOverlap(Space_point l1, Space_point r1, Space_point l2, Space_point r2)
 {
 
@@ -38,8 +41,8 @@ void Controller::update(Input &in, float t)
 {
 	for (unsigned n_player = 0; n_player < chars.Character_vector.size();
 		 n_player++) {
+		
 		auto &c = chars.Character_vector[n_player];
-
 		float dx = 0., dy = 0.;
 		int direction = -1;
 		if (in.movement(direction::up, n_player)) {
@@ -116,12 +119,37 @@ void Controller::update(Input &in, float t)
 
 	for (auto &p : pv.all_projectile_vector) {
 		float dx = 0, dy = 0;
+		Space_point Projectile_hit_l;
+		Space_point Projectile_hit_r;
+
+		Projectile_hit_l.x = p.x - (projectile_width/2);
+		Projectile_hit_l.y = p.y + (projectile_height/2);
+		
+		Projectile_hit_r.x = p.x + (projectile_width/2);
+		Projectile_hit_l.y = p.y - (projectile_height/2);
+
+		
 		if (p.direction == direction::up) dy = projectile_speed;
 		if (p.direction == direction::down) dy = -projectile_speed;
 		if (p.direction == direction::left) dx = -projectile_speed;
 		if (p.direction == direction::right) dx = projectile_speed;
 		p.x += dx * t;
 		p.y += dy * t;
+		bool Projectile_hit_flag = false;
+		for(auto &m: mv.enemy_vector) {
+			
+			Projectile_hit_flag = doOverlap( Projectile_hit_l, Projectile_hit_r, m.l,m.r);
+			if(Projectile_hit_flag == true) {
+
+				pv.delete_projectile(p.id);
+
+			}
+			
+
+		}
+
+
+
 	}
 
 	time_elapsed += t;
