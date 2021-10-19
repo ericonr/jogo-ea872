@@ -24,6 +24,7 @@ class Character
 	float last_shot_time;
 
 	Character(float x, float y, int size, float height, float width);
+	void calc_bordas_();
 
 	Space_point l, r;
 	int size;
@@ -43,6 +44,7 @@ class Characters
 
 	void add_character(Character &c);
 	void delete_character(int pos);
+	
 };
 
 class Scenery_element
@@ -58,12 +60,10 @@ class Scenery_element
 	Scenery_element(float x, float y, int size, float height, float width)
 		: x(x), y(y), size(size), height(height), width(width)
 	{
-
-		l.x = x - (width / 2);
-		l.y = y + (height / 2);
-		r.x = x + (width / 2);
-		r.y = y - (height / 2);
+		calc_bordas_();
 	}
+
+	void calc_bordas_();
 };
 
 class Scenery_element_vector
@@ -101,9 +101,11 @@ class Monster
 		r.x = x + (width / 2);
 		r.y = y - (height / 2);
 
-		center_x = x;
-		center_y = y;
+		
 	}
+	
+	void calc_bordas_();
+
 };
 
 class Monster_vector

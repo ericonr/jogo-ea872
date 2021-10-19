@@ -17,3 +17,13 @@ void insert_Scenery_element(Scenery_element &e, Scenery_element_vector &sev)
 {
 	sev.add_element(e);
 }
+
+
+void Scenery_element::calc_bordas_() {
+	
+	l.x = x - (width / 2);
+	l.y = y + (height / 2);
+	r.x = x + (width / 2);
+	r.y = y - (height / 2);
+
+}

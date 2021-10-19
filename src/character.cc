@@ -5,10 +5,13 @@
 Character::Character(float x, float y, int size, float height, float width)
 	: x(x), y(y), size(size), height(height), width(width), last_direction(-1)
 {
-	l.x = x - (width / 2);
-	l.y = y + (height / 2);
-	r.x = x + (width / 2);
-	r.y = y - (height / 2);
+	
+}
+
+void Character::calc_bordas_() {
+	
+	calc_bordas_();;
+
 }
 
 void Characters::add_character(Character &c)

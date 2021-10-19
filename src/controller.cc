@@ -1,6 +1,7 @@
 #include "controller.h"
 #include "models.h"
 #include <math.h>
+#include<general_func.h>
 
 // 20 km/h = 72 m/s
 static const float max_speed = 72.;
@@ -29,6 +30,9 @@ bool doOverlap(Space_point l1, Space_point r1, Space_point l2, Space_point r2)
 
 	return true;
 }
+
+
+
 
 void Controller::update(Input &in, float t)
 {
