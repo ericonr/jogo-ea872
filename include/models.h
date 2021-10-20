@@ -23,24 +23,19 @@ class Character
 	float x, y;
 	float last_shot_time;
 
-	Character(float x, float y, int size, float height, float width);
-	void calc_bordas_();
-
 	Space_point l, r;
 	int size;
 	float height, width;
 	unsigned long id;
 	int last_direction;
+
+	Character(float x, float y, int size, float height, float width);
 };
 
 class Characters
 {
 	public:
 	std::vector<Character> Character_vector;
-
-	Characters()
-	{
-	}
 
 	void add_character(Character &c);
 	void delete_character(int pos);
@@ -53,16 +48,9 @@ class Scenery_element
 	int size;
 	float height, width;
 	enum { tree, rock } type;
-	unsigned long id;
 	Space_point l, r;
 
-	Scenery_element(float x, float y, int size, float height, float width)
-		: x(x), y(y), size(size), height(height), width(width)
-	{
-		calc_bordas_();
-	}
-
-	void calc_bordas_();
+	Scenery_element(float x, float y, int size, float height, float width);
 };
 
 class Scenery_element_vector
@@ -76,7 +64,6 @@ class Scenery_element_vector
 	}
 
 	void add_element(Scenery_element &element);
-	void delete_element(int pos);
 };
 
 class Monster
@@ -91,14 +78,7 @@ class Monster
 	float center_y;
 	unsigned long id;
 
-	Monster(float x, float y, int size, float height, float width)
-		: x(x), y(y), size(size), height(height), width(width)
-	{
-
-		calc_bordas_();
-	}
-
-	void calc_bordas_();
+	Monster(float x, float y, int size, float height, float width);
 };
 
 class Monster_vector

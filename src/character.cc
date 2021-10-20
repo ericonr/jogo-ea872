@@ -5,13 +5,7 @@
 Character::Character(float x, float y, int size, float height, float width)
 	: x(x), y(y), size(size), height(height), width(width), last_direction(-1)
 {
-}
-
-void Character::calc_bordas_()
-{
-
-	calc_bordas_();
-	;
+	calc_bordas(l, r, x, y, height, width);
 }
 
 void Characters::add_character(Character &c)
@@ -40,4 +34,13 @@ void insert_playable_character(Character &c, Player &p, Input &in,
 {
 	chars.add_character(c);
 	in.add_player(p);
+}
+
+void calc_bordas(Space_point &l, Space_point &r, float x, float y, float height,
+				 float width)
+{
+	l.x = x - (width / 2);
+	l.y = y + (height / 2);
+	r.x = x + (width / 2);
+	r.y = y - (height / 2);
 }
