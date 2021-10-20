@@ -1,4 +1,7 @@
+#include <fstream>
 #include <iostream>
+
+#include "json.hpp"
 
 #include "controller.h"
 #include "general_func.h"
@@ -51,4 +54,12 @@ int main(int argc, char **argv)
 		control.update(in, T);
 		v.delay(T);
 	}
+
+	nlohmann::json j;
+	std::ofstream f{"save_game.json"};
+	j["characters"] = vetor_personagem.Character_vector;
+	j["scenery"] = vetor_elementos.element_vector;
+	j["monsters"] = vetor_monstros.enemy_vector;
+	j["projectiles"] = vetor_projeteis.all_projectile_vector;
+	f << j;
 }
