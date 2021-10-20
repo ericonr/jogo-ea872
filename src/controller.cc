@@ -75,8 +75,8 @@ void Controller::update(Input &in, float t)
 		}
 
 		// esperar ter se movido em alguma direção
-		if (time_elapsed - c.last_shot_time >= 1.f && c.last_direction != -1) {
-			c.last_shot_time = time_elapsed;
+		if (tc.time_elapsed - c.last_shot_time >= 1.f && c.last_direction != -1) {
+			c.last_shot_time = tc.time_elapsed;
 			pv.fire_new_projectile(c);
 		}
 
@@ -112,7 +112,7 @@ void Controller::update(Input &in, float t)
 
 	for (unsigned n_monsters = 0; n_monsters < mv.enemy_vector.size(); n_monsters++) {
 		mv.enemy_vector[n_monsters].x =
-			mv.enemy_vector[n_monsters].center_x + (MONSTER_OSC_AMP * cos(2 * PI * MONSTER_OSC_FREQ * time_elapsed));
+			mv.enemy_vector[n_monsters].center_x + (MONSTER_OSC_AMP * cos(2 * PI * MONSTER_OSC_FREQ * tc.time_elapsed));
 	}
 
 	std::vector<size_t> to_delete;
@@ -157,5 +157,5 @@ void Controller::update(Input &in, float t)
 		// pv.delete_projectile(n);
 	}
 
-	time_elapsed += t;
+	tc.time_elapsed += t;
 }

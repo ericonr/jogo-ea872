@@ -125,3 +125,8 @@ class Projectile_vector
 	void fire_new_projectile(const Character &c);
 	void delete_projectile(size_t id);
 };
+
+struct Time_counter {
+	float time_elapsed = 0;
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE(Time_counter, time_elapsed);
+};

@@ -29,10 +29,11 @@ int main(int argc, char **argv)
 	Scenery_element_vector vetor_elementos;
 	Monster_vector vetor_monstros;
 	Projectile_vector vetor_projeteis;
+	Time_counter tc;
 
 	View v{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis};
 	Input in{v};
-	Controller control{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis};
+	Controller control{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis, tc};
 
 	if (argc == 1) {
 		Character c0{0, 0, 50, 5, 5};
@@ -60,6 +61,7 @@ int main(int argc, char **argv)
 		j["scenery"] = vetor_elementos.element_vector;
 		j["monsters"] = vetor_monstros.enemy_vector;
 		j["projectiles"] = vetor_projeteis.all_projectile_vector;
+		j["time"] = tc;
 		f << j;
 	} else {
 		nlohmann::json j;
@@ -70,6 +72,8 @@ int main(int argc, char **argv)
 		vetor_elementos.element_vector = j["scenery"].get<std::vector<Scenery_element>>();
 		vetor_monstros.enemy_vector = j["monsters"].get<std::vector<Monster>>();
 		vetor_projeteis.all_projectile_vector = j["projectiles"].get<std::vector<Individual_projectile>>();
+		tc = j["time"].get<Time_counter>();
+
 		in.add_player(p0);
 		in.add_player(p1);
 
