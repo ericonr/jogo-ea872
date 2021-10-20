@@ -1,4 +1,5 @@
 #pragma once
+#include "json.hpp"
 #include <iostream>
 #include <vector>
 
@@ -15,6 +16,7 @@ const int max = 5;
 struct Space_point {
 	float x;
 	float y;
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE(Space_point, x, y);
 };
 
 class Character
@@ -30,6 +32,8 @@ class Character
 	int last_direction;
 
 	Character(float x, float y, int size, float height, float width);
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE(Character, x, y, last_shot_time, l, r, size,
+								   height, width, id, last_direction);
 };
 
 class Characters
@@ -51,6 +55,8 @@ class Scenery_element
 	Space_point l, r;
 
 	Scenery_element(float x, float y, int size, float height, float width);
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE(Scenery_element, x, y, size, height, width,
+								   type, l, r);
 };
 
 class Scenery_element_vector
@@ -79,6 +85,8 @@ class Monster
 	unsigned long id;
 
 	Monster(float x, float y, int size, float height, float width);
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE(Monster, x, y, size, height, width, l, r,
+								   center_x, center_y, id);
 };
 
 class Monster_vector
@@ -98,18 +106,17 @@ struct Individual_projectile {
 	float x;
 	float y;
 	int direction;
-	int id;
+	size_t id;
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE(Individual_projectile, x, y, direction, id);
 };
 
 class Projectile_vector
 {
 	public:
 	std::vector<Individual_projectile> all_projectile_vector;
-	int id_counter;
 
 	Projectile_vector(){};
 
 	void fire_new_projectile(const Character &c);
-	void delete_projectile(unsigned id);
-	void sum_id_counter();
+	void delete_projectile(size_t id);
 };

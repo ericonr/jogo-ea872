@@ -1,7 +1,9 @@
 #include "controller.h"
 #include "general_func.h"
 #include "models.h"
+#include <algorithm>
 #include <math.h>
+#include <vector>
 
 // 20 km/h = 72 m/s
 static const float max_speed = 72.;
@@ -120,6 +122,7 @@ void Controller::update(Input &in, float t)
 			(MONSTER_OSC_AMP * cos(2 * PI * MONSTER_OSC_FREQ * time_elapsed));
 	}
 
+	std::vector<size_t> to_delete;
 	for (auto &p : pv.all_projectile_vector) {
 		float dx = 0, dy = 0;
 		Space_point Projectile_hit_l;
@@ -129,7 +132,8 @@ void Controller::update(Input &in, float t)
 		if (p.x < negative_boad_limit_x || p.x > positive_boad_limit_x ||
 			p.y < negative_boad_limit_y || p.y > positive_boad_limit_y) {
 
-			pv.delete_projectile(p.id);
+			to_delete.push_back(p.id);
+			continue;
 		}
 
 		Projectile_hit_l.x = p.x - (projectile_width / 2);
@@ -151,10 +155,14 @@ void Controller::update(Input &in, float t)
 			Projectile_hit_flag =
 				doOverlap(Projectile_hit_l, Projectile_hit_r, m.l, m.r);
 			if (Projectile_hit_flag == true) {
-
-				pv.delete_projectile(p.id);
+				to_delete.push_back(p.id);
+				continue;
 			}
 		}
+	}
+	std::reverse(to_delete.begin(), to_delete.end());
+	for (auto n : to_delete) {
+		// pv.delete_projectile(n);
 	}
 
 	time_elapsed += t;
