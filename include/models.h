@@ -44,7 +44,6 @@ class Characters
 
 	void add_character(Character &c);
 	void delete_character(int pos);
-	
 };
 
 class Scenery_element
@@ -96,13 +95,10 @@ class Monster
 		: x(x), y(y), size(size), height(height), width(width)
 	{
 
-		 calc_bordas_();
-
-		
+		calc_bordas_();
 	}
-	
-	void calc_bordas_();
 
+	void calc_bordas_();
 };
 
 class Monster_vector

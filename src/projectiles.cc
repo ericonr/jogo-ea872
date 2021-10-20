@@ -19,15 +19,17 @@ void Projectile_vector::fire_new_projectile(const Character &c)
 void Projectile_vector::delete_projectile(unsigned id)
 {
 	unsigned search_id;
-	for(unsigned n_projectile = 0; n_projectile < all_projectile_vector.size(); n_projectile++) {
-        search_id = all_projectile_vector[n_projectile].id;
-        if(search_id == id) {
-            all_projectile_vector.erase(all_projectile_vector.begin() + (n_projectile));
-
-        } 
-    }
+	for (unsigned n_projectile = 0; n_projectile < all_projectile_vector.size();
+		 n_projectile++) {
+		search_id = all_projectile_vector[n_projectile].id;
+		if (search_id == id) {
+			all_projectile_vector.erase(all_projectile_vector.begin() +
+										(n_projectile));
+		}
+	}
 }
 
-void Projectile_vector::sum_id_counter() {
-	 id_counter += 1;
+void Projectile_vector::sum_id_counter()
+{
+	id_counter += 1;
 }

@@ -1,7 +1,7 @@
 #include "controller.h"
+#include "general_func.h"
 #include "models.h"
 #include <math.h>
-#include<general_func.h>
 
 // 20 km/h = 72 m/s
 static const float max_speed = 72.;
@@ -40,14 +40,11 @@ bool doOverlap(Space_point l1, Space_point r1, Space_point l2, Space_point r2)
 	return true;
 }
 
-
-
-
 void Controller::update(Input &in, float t)
 {
 	for (unsigned n_player = 0; n_player < chars.Character_vector.size();
 		 n_player++) {
-		
+
 		auto &c = chars.Character_vector[n_player];
 		float dx = 0., dy = 0.;
 		int direction = -1;
@@ -128,22 +125,19 @@ void Controller::update(Input &in, float t)
 		Space_point Projectile_hit_l;
 		Space_point Projectile_hit_r;
 
-
 		// deleta quando sai da tela
-		if(p.x < negative_boad_limit_x || p.x > positive_boad_limit_x || 
-		p.y < negative_boad_limit_y || p.y > positive_boad_limit_y) {
-			
-			pv.delete_projectile(p.id);
+		if (p.x < negative_boad_limit_x || p.x > positive_boad_limit_x ||
+			p.y < negative_boad_limit_y || p.y > positive_boad_limit_y) {
 
+			pv.delete_projectile(p.id);
 		}
 
-		Projectile_hit_l.x = p.x - (projectile_width/2);
-		Projectile_hit_l.y = p.y + (projectile_height/2);
-		
-		Projectile_hit_r.x = p.x + (projectile_width/2);
-		Projectile_hit_l.y = p.y - (projectile_height/2);
+		Projectile_hit_l.x = p.x - (projectile_width / 2);
+		Projectile_hit_l.y = p.y + (projectile_height / 2);
 
-		
+		Projectile_hit_r.x = p.x + (projectile_width / 2);
+		Projectile_hit_l.y = p.y - (projectile_height / 2);
+
 		if (p.direction == direction::up) dy = projectile_speed;
 		if (p.direction == direction::down) dy = -projectile_speed;
 		if (p.direction == direction::left) dx = -projectile_speed;
@@ -151,21 +145,16 @@ void Controller::update(Input &in, float t)
 		p.x += dx * t;
 		p.y += dy * t;
 		bool Projectile_hit_flag = false;
-		for(auto &m: mv.enemy_vector) {
-			
+		for (auto &m : mv.enemy_vector) {
+
 			// deleta projetil na colisao
-			Projectile_hit_flag = doOverlap( Projectile_hit_l, Projectile_hit_r, m.l,m.r);
-			if(Projectile_hit_flag == true) {
+			Projectile_hit_flag =
+				doOverlap(Projectile_hit_l, Projectile_hit_r, m.l, m.r);
+			if (Projectile_hit_flag == true) {
 
 				pv.delete_projectile(p.id);
-
 			}
-			
-
 		}
-
-
-
 	}
 
 	time_elapsed += t;
