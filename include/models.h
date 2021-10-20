@@ -31,6 +31,9 @@ class Character
 	unsigned long id;
 	int last_direction;
 
+	Character()
+	{
+	}
 	Character(float x, float y, int size, float height, float width);
 	NLOHMANN_DEFINE_TYPE_INTRUSIVE(Character, x, y, last_shot_time, l, r, size,
 								   height, width, id, last_direction);
@@ -54,6 +57,9 @@ class Scenery_element
 	enum { tree, rock } type;
 	Space_point l, r;
 
+	Scenery_element()
+	{
+	}
 	Scenery_element(float x, float y, int size, float height, float width);
 	NLOHMANN_DEFINE_TYPE_INTRUSIVE(Scenery_element, x, y, size, height, width,
 								   type, l, r);
@@ -84,6 +90,9 @@ class Monster
 	float center_y;
 	unsigned long id;
 
+	Monster()
+	{
+	}
 	Monster(float x, float y, int size, float height, float width);
 	NLOHMANN_DEFINE_TYPE_INTRUSIVE(Monster, x, y, size, height, width, l, r,
 								   center_x, center_y, id);
