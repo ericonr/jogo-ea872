@@ -2,6 +2,7 @@ project('jogo', 'cpp')
 
 sdl2 = dependency('sdl2')
 sdl2_image = dependency('SDL2_image')
+boost = dependency('boost').partial_dependency(compile_args: true)
 
 includes = include_directories('include')
 srcs = [
@@ -18,5 +19,5 @@ srcs = [
 executable('jogo',
 	srcs,
 	include_directories: includes,
-	dependencies: [sdl2, sdl2_image]
+	dependencies: [sdl2, sdl2_image, boost]
 )
