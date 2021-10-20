@@ -35,8 +35,7 @@ class Character
 	{
 	}
 	Character(float x, float y, int size, float height, float width);
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE(Character, x, y, last_shot_time, l, r, size,
-								   height, width, id, last_direction);
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE(Character, x, y, last_shot_time, l, r, size, height, width, id, last_direction);
 };
 
 class Characters
@@ -61,8 +60,7 @@ class Scenery_element
 	{
 	}
 	Scenery_element(float x, float y, int size, float height, float width);
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE(Scenery_element, x, y, size, height, width,
-								   type, l, r);
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE(Scenery_element, x, y, size, height, width, type, l, r);
 };
 
 class Scenery_element_vector
@@ -80,7 +78,6 @@ class Scenery_element_vector
 
 class Monster
 {
-
 	public:
 	float x, y;
 	int size;
@@ -94,8 +91,7 @@ class Monster
 	{
 	}
 	Monster(float x, float y, int size, float height, float width);
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE(Monster, x, y, size, height, width, l, r,
-								   center_x, center_y, id);
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE(Monster, x, y, size, height, width, l, r, center_x, center_y, id);
 };
 
 class Monster_vector

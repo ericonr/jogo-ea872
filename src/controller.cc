@@ -44,8 +44,7 @@ bool doOverlap(Space_point l1, Space_point r1, Space_point l2, Space_point r2)
 
 void Controller::update(Input &in, float t)
 {
-	for (unsigned n_player = 0; n_player < chars.Character_vector.size();
-		 n_player++) {
+	for (unsigned n_player = 0; n_player < chars.Character_vector.size(); n_player++) {
 
 		auto &c = chars.Character_vector[n_player];
 		float dx = 0., dy = 0.;
@@ -85,20 +84,16 @@ void Controller::update(Input &in, float t)
 		Space_point comparison_value_l;
 		Space_point comparison_value_r;
 
-		comparison_value_l.x = dx + chars.Character_vector[n_player].x -
-							   ((chars.Character_vector[n_player].width) / 2);
-		comparison_value_l.y = dy + chars.Character_vector[n_player].y +
-							   ((chars.Character_vector[n_player].height) / 2);
-		comparison_value_r.x = dx + chars.Character_vector[n_player].x +
-							   ((chars.Character_vector[n_player].width) / 2);
-		comparison_value_r.y = dy + chars.Character_vector[n_player].y -
-							   ((chars.Character_vector[n_player].height) / 2);
+		comparison_value_l.x = dx + chars.Character_vector[n_player].x - ((chars.Character_vector[n_player].width) / 2);
+		comparison_value_l.y =
+			dy + chars.Character_vector[n_player].y + ((chars.Character_vector[n_player].height) / 2);
+		comparison_value_r.x = dx + chars.Character_vector[n_player].x + ((chars.Character_vector[n_player].width) / 2);
+		comparison_value_r.y =
+			dy + chars.Character_vector[n_player].y - ((chars.Character_vector[n_player].height) / 2);
 
-		for (unsigned n_element = 0; n_element < sev.element_vector.size();
-			 n_element++) {
+		for (unsigned n_element = 0; n_element < sev.element_vector.size(); n_element++) {
 
-			collision_flag = doOverlap(comparison_value_l, comparison_value_r,
-									   sev.element_vector[n_element].l,
+			collision_flag = doOverlap(comparison_value_l, comparison_value_r, sev.element_vector[n_element].l,
 									   sev.element_vector[n_element].r);
 
 			if (collision_flag == true) {
@@ -115,11 +110,9 @@ void Controller::update(Input &in, float t)
 		}
 	}
 
-	for (unsigned n_monsters = 0; n_monsters < mv.enemy_vector.size();
-		 n_monsters++) {
+	for (unsigned n_monsters = 0; n_monsters < mv.enemy_vector.size(); n_monsters++) {
 		mv.enemy_vector[n_monsters].x =
-			mv.enemy_vector[n_monsters].center_x +
-			(MONSTER_OSC_AMP * cos(2 * PI * MONSTER_OSC_FREQ * time_elapsed));
+			mv.enemy_vector[n_monsters].center_x + (MONSTER_OSC_AMP * cos(2 * PI * MONSTER_OSC_FREQ * time_elapsed));
 	}
 
 	std::vector<size_t> to_delete;
@@ -129,8 +122,8 @@ void Controller::update(Input &in, float t)
 		Space_point Projectile_hit_r;
 
 		// deleta quando sai da tela
-		if (p.x < negative_boad_limit_x || p.x > positive_boad_limit_x ||
-			p.y < negative_boad_limit_y || p.y > positive_boad_limit_y) {
+		if (p.x < negative_boad_limit_x || p.x > positive_boad_limit_x || p.y < negative_boad_limit_y ||
+			p.y > positive_boad_limit_y) {
 
 			to_delete.push_back(p.id);
 			continue;
@@ -152,8 +145,7 @@ void Controller::update(Input &in, float t)
 		for (auto &m : mv.enemy_vector) {
 
 			// deleta projetil na colisao
-			Projectile_hit_flag =
-				doOverlap(Projectile_hit_l, Projectile_hit_r, m.l, m.r);
+			Projectile_hit_flag = doOverlap(Projectile_hit_l, Projectile_hit_r, m.l, m.r);
 			if (Projectile_hit_flag == true) {
 				to_delete.push_back(p.id);
 				continue;

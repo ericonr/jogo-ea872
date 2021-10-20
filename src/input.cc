@@ -32,7 +32,6 @@ void Input::refresh()
 
 bool Input::movement(int direction, unsigned int n_player)
 {
-	if (direction >= direction::max)
-		throw std::logic_error("out of bounds index");
+	if (direction >= direction::max) throw std::logic_error("out of bounds index");
 	return player_vector[n_player].movement & (1 << direction);
 }

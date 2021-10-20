@@ -3,8 +3,7 @@
 #include "view.h"
 
 Monster::Monster(float x, float y, int size, float height, float width)
-	: x(x), y(y), size(size), height(height), width(width), center_x(x),
-	  center_y(y)
+	: x(x), y(y), size(size), height(height), width(width), center_x(x), center_y(y)
 {
 	calc_bordas(l, r, x, y, height, width);
 }

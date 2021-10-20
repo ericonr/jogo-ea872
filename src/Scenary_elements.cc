@@ -1,8 +1,7 @@
 #include "general_func.h"
 #include "models.h"
 
-Scenery_element::Scenery_element(float x, float y, int size, float height,
-								 float width)
+Scenery_element::Scenery_element(float x, float y, int size, float height, float width)
 	: x(x), y(y), size(size), height(height), width(width), type(rock)
 {
 	calc_bordas(l, r, x, y, height, width);

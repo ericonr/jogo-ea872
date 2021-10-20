@@ -9,16 +9,14 @@ class View
 {
 	SDL_Window *window;
 	SDL_Renderer *renderer;
-	SDL_Texture *texture, *bg, *element_texture, *monster_texture,
-		*banana_texture;
+	SDL_Texture *texture, *bg, *element_texture, *monster_texture, *banana_texture;
 	Characters &chars;
 	Scenery_element_vector &sev;
 	Monster_vector &mv;
 	Projectile_vector &pv;
 
 	public:
-	View(Characters &chars, Scenery_element_vector &sev, Monster_vector &mv,
-		 Projectile_vector &pv);
+	View(Characters &chars, Scenery_element_vector &sev, Monster_vector &mv, Projectile_vector &pv);
 	~View();
 
 	void render();

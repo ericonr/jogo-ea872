@@ -11,4 +11,5 @@ BreakBeforeBraces: Linux
 AccessModifierOffset: 0
 AllowShortIfStatementsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: false
+ColumnLimit: 120
 ---

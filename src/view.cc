@@ -23,23 +23,20 @@ static int adjust_y(float pos, int object_size)
 	return adjust_coord(-pos, object_size, SCREEN_HEIGHT);
 }
 
-View::View(Characters &chars, Scenery_element_vector &sev, Monster_vector &mv,
-		   Projectile_vector &pv)
-	: window(nullptr), renderer(nullptr), texture(nullptr), bg(nullptr),
-	  element_texture(nullptr), chars(chars), sev(sev), mv(mv), pv(pv)
+View::View(Characters &chars, Scenery_element_vector &sev, Monster_vector &mv, Projectile_vector &pv)
+	: window(nullptr), renderer(nullptr), texture(nullptr), bg(nullptr), element_texture(nullptr), chars(chars),
+	  sev(sev), mv(mv), pv(pv)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		throw std::runtime_error(SDL_GetError());
 	}
-	window = SDL_CreateWindow("Massa mola", SDL_WINDOWPOS_UNDEFINED,
-							  SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
+	window = SDL_CreateWindow("Massa mola", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
 							  SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (window == nullptr) {
 		SDL_Quit();
 		throw std::runtime_error(SDL_GetError());
 	}
-	renderer = SDL_CreateRenderer(
-		window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (renderer == nullptr) {
 		SDL_DestroyWindow(window);
 		SDL_Quit();
