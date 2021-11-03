@@ -73,6 +73,7 @@ int main(int argc, char **argv)
 
 	// quando fechar o jogo, enviará o arquivo json em formato std string para um server via udp
 		char message[1000];
+		std::string msg;
 
   		boost::asio::io_service my_io_service; // Conecta com o SO
 
@@ -89,12 +90,16 @@ int main(int argc, char **argv)
   		my_socket.receive_from(boost::asio::buffer(message,1000), // Local do buffer
                       remote_endpoint); // Confs. do Cliente
 
-  		std::cout << message << std::endl;
-  		std::cout << "Fim de mensagem!" << std::endl;
-		  
-	
+  		
+		for (char c: message) {
+        msg.push_back(c);
+    }
+		std::cout << msg << std::endl;
+		std::cout << "Fim de mensagem!" << std::endl;
+
+
 		nlohmann::json jload;
-		jload = nlohmann::json::parse(message);
+		jload = nlohmann::json::parse(msg);
 		std::cout << jload << std::endl;
 		std::ofstream fload{"remoteplayer.json"};
 		fload << jload;
