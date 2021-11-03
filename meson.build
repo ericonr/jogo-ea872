@@ -14,6 +14,7 @@ srcs = [
 	'src/main.cc',
 	'src/controller.cc',
 	'src/view.cc',
+	'src/json.cc',
 	'src/input.cc',
 	'src/character.cc',
 	'src/Scenary_elements.cc',

@@ -1,23 +1,26 @@
 #include <fstream>
 #include <iostream>
 
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+
 #include "json.hpp"
 
 #include "controller.h"
 #include "general_func.h"
+#include "json.h"
 #include "models.h"
 #include "view.h"
-#include <boost/asio.hpp>
-#include <boost/bind.hpp>
 
 static const float T = 0.01;
 
-static void run_game(Controller &c, View &v, Input &in)
+static void run_game(Controller &c, View &v, Input &in, JsonView &jv, JsonSender &js)
 {
 	while (!in.should_quit()) {
 		v.render();
 		in.refresh();
 		c.update(in, T);
+		js.send();
 		v.delay(T);
 	}
 }
@@ -34,6 +37,7 @@ int main(int argc, char **argv)
 	Time_counter tc;
 
 	View v{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis};
+	JsonView jv{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis, tc};
 	Input in{v};
 	Controller control{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis, tc};
 
@@ -55,31 +59,20 @@ int main(int argc, char **argv)
 		insert_playable_character(c0, p0, in, vetor_personagem);
 		insert_playable_character(c1, p1, in, vetor_personagem);
 
-		run_game(control, v, in);
+		JsonSender js{jv};
+
+		boost::asio::ip::address ip_remoto = boost::asio::ip::address::from_string("127.0.0.1");
+		boost::asio::ip::udp::udp::endpoint remote_endpoint(ip_remoto, 9001);
+		js.endpoints.push_back(remote_endpoint);
+
+		run_game(control, v, in, jv, js);
 
 		nlohmann::json j;
 		std::ofstream f{"save_game.json"};
-		j["characters"] = vetor_personagem.Character_vector;
-		j["scenery"] = vetor_elementos.element_vector;
-		j["monsters"] = vetor_monstros.enemy_vector;
-		j["projectiles"] = vetor_projeteis.all_projectile_vector;
-		j["time"] = tc;
+		jv.write(j);
 		f << j;
 
-		std::string message = j.dump();
-
-		boost::asio::io_service io_service;
-		boost::asio::ip::udp::udp::endpoint local_endpoint(boost::asio::ip::udp::udp::v4(), 0);
-		boost::asio::ip::udp::udp::udp::socket meu_socket(io_service, local_endpoint);
-		boost::asio::ip::address ip_remoto = boost::asio::ip::address::from_string("127.0.0.1");
-
-		boost::asio::ip::udp::udp::endpoint remote_endpoint(ip_remoto, 9001);
-
-		meu_socket.send_to(boost::asio::buffer(message), remote_endpoint);
-
-		std::cout << message << std::endl;
-		std::cout << "Fim" << std::endl;
-
+		std::cout << j << std::endl;
 	} else {
 		nlohmann::json j;
 		std::ifstream f{"save_game.json"};
@@ -94,6 +87,6 @@ int main(int argc, char **argv)
 		in.add_player(p0);
 		in.add_player(p1);
 
-		run_game(control, v, in);
+		// run_game(control, v, in);
 	}
 }
