@@ -40,6 +40,7 @@ static void view_game(View &v, Input &in, JsonView &jv)
 		nlohmann::json j = nlohmann::json::parse(message);
 		jv.read(j);
 		v.render();
+		in.refresh();
 	}
 }
 
