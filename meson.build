@@ -2,7 +2,11 @@ project('jogo', 'cpp')
 
 sdl2 = dependency('sdl2')
 sdl2_image = dependency('SDL2_image')
-boost = dependency('boost').partial_dependency(compile_args: true)
+cxx = meson.get_compiler('cpp')
+boost_dep = [
+    cxx.find_library('boost_system'),
+    cxx.find_library('boost_filesystem'),
+]
 
 includes = include_directories('include')
 srcs = [
@@ -19,5 +23,5 @@ srcs = [
 executable('jogo',
 	srcs,
 	include_directories: includes,
-	dependencies: [sdl2, sdl2_image, boost]
+	dependencies: [sdl2, sdl2_image, boost_dep]
 )

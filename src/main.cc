@@ -7,6 +7,8 @@
 #include "general_func.h"
 #include "models.h"
 #include "view.h"
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
 
 static const float T = 0.01;
 
@@ -22,6 +24,36 @@ static void run_game(Controller &c, View &v, Input &in)
 
 int main(int argc, char **argv)
 {
+	/*char message[120];
+
+  boost::asio::io_service my_io_service; // Conecta com o SO
+
+  boost::asio::ip::udp::udp::endpoint local_endpoint(boost::asio::ip::udp::udp::v4(), 9001); // endpoint: contem
+                                                // conf. da conexao (ip/port)
+
+  boost::asio::ip::udp::udp::socket my_socket(my_io_service, // io service
+                        local_endpoint); // endpoint
+
+  boost::asio::ip::udp::udp::endpoint remote_endpoint; // vai conter informacoes de quem conectar
+
+  std::cout << "Esperando mensagem!" << std::endl;
+
+  my_socket.receive_from(boost::asio::buffer(message,120), // Local do buffer
+                      remote_endpoint); // Confs. do Cliente
+
+  std::cout << message << std::endl;
+  std::cout << "Fim de mensagem!" << std::endl;
+
+
+  // Respondendo a mensagem
+  std::string msg("Recebido! Obrigado, cambio e desligo!");
+  my_socket.send_to(boost::asio::buffer(msg), remote_endpoint);
+
+  std::cout << "Mensagem de retorno enviada" << std::endl;
+  */
+	
+
+
 	Player p0{0, 0, Player::keyboard, {SDL_SCANCODE_W, SDL_SCANCODE_S, SDL_SCANCODE_A, SDL_SCANCODE_D}};
 	Player p1{0, 0, Player::keyboard, {SDL_SCANCODE_UP, SDL_SCANCODE_DOWN, SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT}};
 
