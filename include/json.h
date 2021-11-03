@@ -22,6 +22,7 @@ class JsonView
 	}
 
 	void write(nlohmann::json &j);
+	void read(nlohmann::json const &j);
 };
 
 class JsonSender

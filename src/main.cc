@@ -25,6 +25,24 @@ static void run_game(Controller &c, View &v, Input &in, JsonSender &js)
 	}
 }
 
+static void view_game(View &v, Input &in, JsonView &jv)
+{
+	char message[64000];
+	boost::asio::io_service my_io_service;
+	boost::asio::ip::udp::udp::endpoint local_endpoint(boost::asio::ip::udp::udp::v4(), 9001);
+	boost::asio::ip::udp::udp::socket my_socket(my_io_service, local_endpoint);
+	boost::asio::ip::udp::udp::endpoint remote_endpoint;
+
+	while (!in.should_quit()) {
+		size_t len = my_socket.receive_from(boost::asio::buffer(message,sizeof message), remote_endpoint);
+		message[len] = 0;
+		std::cout << message << std::endl;
+		nlohmann::json j = nlohmann::json::parse(message);
+		jv.read(j);
+		v.render();
+	}
+}
+
 int main(int argc, char **argv)
 {
 	Player p0{0, 0, Player::keyboard, {SDL_SCANCODE_W, SDL_SCANCODE_S, SDL_SCANCODE_A, SDL_SCANCODE_D}};
@@ -74,19 +92,6 @@ int main(int argc, char **argv)
 
 		std::cout << j << std::endl;
 	} else {
-		nlohmann::json j;
-		std::ifstream f{"save_game.json"};
-		f >> j;
-
-		vetor_personagem.Character_vector = j["characters"].get<std::vector<Character>>();
-		vetor_elementos.element_vector = j["scenery"].get<std::vector<Scenery_element>>();
-		vetor_monstros.enemy_vector = j["monsters"].get<std::vector<Monster>>();
-		vetor_projeteis.all_projectile_vector = j["projectiles"].get<std::vector<Individual_projectile>>();
-		tc = j["time"].get<Time_counter>();
-
-		in.add_player(p0);
-		in.add_player(p1);
-
-		// run_game(control, v, in);
+		view_game(v, in, jv);
 	}
 }

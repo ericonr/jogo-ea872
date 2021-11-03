@@ -9,6 +9,15 @@ void JsonView::write(nlohmann::json &j)
 	j["time"] = tc;
 }
 
+void JsonView::read(nlohmann::json const &j)
+{
+	chars.Character_vector = j["characters"].get<std::vector<Character>>();
+	sev.element_vector = j["scenery"].get<std::vector<Scenery_element>>();
+	mv.enemy_vector = j["monsters"].get<std::vector<Monster>>();
+	pv.all_projectile_vector = j["projectiles"].get<std::vector<Individual_projectile>>();
+	tc = j["time"].get<Time_counter>();
+}
+
 void JsonSender::send()
 {
 	nlohmann::json j;
