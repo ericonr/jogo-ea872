@@ -67,9 +67,9 @@ int main(int argc, char **argv)
 		j["time"] = tc;
 		f << j;
 
+// quando fechar o jogo, enviará o arquivo json em formato std string para um server via udp
 		std::string message = j.dump();
 	
-
 	  	boost::asio::io_service io_service;
 	  	boost::asio::ip::udp::udp::endpoint local_endpoint(	boost::asio::ip::udp::udp::v4(), 0);
 		boost::asio::ip::udp::udp::udp::socket meu_socket(io_service, local_endpoint);
@@ -80,11 +80,14 @@ int main(int argc, char **argv)
 
   		meu_socket.send_to(boost::asio::buffer(message), remote_endpoint);
   
-  		std::cout << message << std::endl;
+  		/*std::cout << message << std::endl;
  		std::cout << "Fim" << std::endl;
-	
-		
-		
+		nlohmann::json jload;
+		jload = nlohmann::json::parse(message);
+		std::cout << jload << std::endl;
+		std::ofstream fload{"remoteplayer.json"};
+		fload << jload;
+		*/
 
 
 		
