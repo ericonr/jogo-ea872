@@ -67,33 +67,41 @@ int main(int argc, char **argv)
 		j["time"] = tc;
 		f << j;
 
-// quando fechar o jogo, enviará o arquivo json em formato std string para um server via udp
-		std::string message = j.dump();
+		
+	} else {
+
+
+	// quando fechar o jogo, enviará o arquivo json em formato std string para um server via udp
+		char message[1000];
+
+  		boost::asio::io_service my_io_service; // Conecta com o SO
+
+ 		boost::asio::ip::udp::udp::endpoint local_endpoint(boost::asio::ip::udp::udp::v4(), 9001); // endpoint: contem
+                                                // conf. da conexao (ip/port)
+
+  		boost::asio::ip::udp::udp::socket my_socket(my_io_service, // io service
+                        local_endpoint); // endpoint
+
+  		boost::asio::ip::udp::udp::endpoint remote_endpoint; // vai conter informacoes de quem conectar
+
+  		std::cout << "Esperando mensagem!" << std::endl;
+
+  		my_socket.receive_from(boost::asio::buffer(message,1000), // Local do buffer
+                      remote_endpoint); // Confs. do Cliente
+
+  		std::cout << message << std::endl;
+  		std::cout << "Fim de mensagem!" << std::endl;
+		  
 	
-	  	boost::asio::io_service io_service;
-	  	boost::asio::ip::udp::udp::endpoint local_endpoint(	boost::asio::ip::udp::udp::v4(), 0);
-		boost::asio::ip::udp::udp::udp::socket meu_socket(io_service, local_endpoint);
-		boost::asio::ip::address ip_remoto =
-  		boost::asio::ip::address::from_string("127.0.0.1");
-
- 		boost::asio::ip::udp::udp::endpoint remote_endpoint(ip_remoto, 9001);
-
-  		meu_socket.send_to(boost::asio::buffer(message), remote_endpoint);
-  
-  		/*std::cout << message << std::endl;
- 		std::cout << "Fim" << std::endl;
 		nlohmann::json jload;
 		jload = nlohmann::json::parse(message);
 		std::cout << jload << std::endl;
 		std::ofstream fload{"remoteplayer.json"};
 		fload << jload;
-		*/
 
 
-		
-	} else {
 		nlohmann::json j;
-		std::ifstream f{"save_game.json"};
+		std::ifstream f{"remoteplayer.json"};
 		f >> j;
 
 		vetor_personagem.Character_vector = j["characters"].get<std::vector<Character>>();
