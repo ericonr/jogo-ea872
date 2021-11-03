@@ -14,7 +14,7 @@
 
 static const float T = 0.01;
 
-static void run_game(Controller &c, View &v, Input &in, JsonView &jv, JsonSender &js)
+static void run_game(Controller &c, View &v, Input &in, JsonSender &js)
 {
 	while (!in.should_quit()) {
 		v.render();
@@ -65,7 +65,7 @@ int main(int argc, char **argv)
 		boost::asio::ip::udp::udp::endpoint remote_endpoint(ip_remoto, 9001);
 		js.endpoints.push_back(remote_endpoint);
 
-		run_game(control, v, in, jv, js);
+		run_game(control, v, in, js);
 
 		nlohmann::json j;
 		std::ofstream f{"save_game.json"};
