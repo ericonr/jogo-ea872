@@ -10,7 +10,6 @@
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 
-
 static const float T = 0.01;
 
 static void run_game(Controller &c, View &v, Input &in)
@@ -68,26 +67,19 @@ int main(int argc, char **argv)
 		f << j;
 
 		std::string message = j.dump();
-	
 
-	  	boost::asio::io_service io_service;
-	  	boost::asio::ip::udp::udp::endpoint local_endpoint(	boost::asio::ip::udp::udp::v4(), 0);
+		boost::asio::io_service io_service;
+		boost::asio::ip::udp::udp::endpoint local_endpoint(boost::asio::ip::udp::udp::v4(), 0);
 		boost::asio::ip::udp::udp::udp::socket meu_socket(io_service, local_endpoint);
-		boost::asio::ip::address ip_remoto =
-  		boost::asio::ip::address::from_string("127.0.0.1");
+		boost::asio::ip::address ip_remoto = boost::asio::ip::address::from_string("127.0.0.1");
 
- 		boost::asio::ip::udp::udp::endpoint remote_endpoint(ip_remoto, 9001);
+		boost::asio::ip::udp::udp::endpoint remote_endpoint(ip_remoto, 9001);
 
-  		meu_socket.send_to(boost::asio::buffer(message), remote_endpoint);
-  
-  		std::cout << message << std::endl;
- 		std::cout << "Fim" << std::endl;
-	
-		
-		
+		meu_socket.send_to(boost::asio::buffer(message), remote_endpoint);
 
+		std::cout << message << std::endl;
+		std::cout << "Fim" << std::endl;
 
-		
 	} else {
 		nlohmann::json j;
 		std::ifstream f{"save_game.json"};
