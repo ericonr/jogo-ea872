@@ -34,7 +34,7 @@ static void view_game(View &v, Input &in, JsonView &jv)
 	boost::asio::ip::udp::udp::endpoint remote_endpoint;
 
 	while (!in.should_quit()) {
-		size_t len = my_socket.receive_from(boost::asio::buffer(message,sizeof message), remote_endpoint);
+		size_t len = my_socket.receive_from(boost::asio::buffer(message, sizeof message), remote_endpoint);
 		message[len] = 0;
 		std::cout << message << std::endl;
 		nlohmann::json j = nlohmann::json::parse(message);
