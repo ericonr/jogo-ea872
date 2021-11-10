@@ -17,8 +17,3 @@ void Monster_vector::delete_monster(int pos)
 {
 	enemy_vector.erase(enemy_vector.begin() + (pos - 1));
 }
-
-void insert_Monster(Monster &m, Monster_vector &mv)
-{
-	mv.add_monster(m);
-}

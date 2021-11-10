@@ -11,8 +11,3 @@ void Scenery_element_vector::add_element(Scenery_element &element)
 {
 	element_vector.push_back(element);
 }
-
-void insert_Scenery_element(Scenery_element &e, Scenery_element_vector &sev)
-{
-	sev.add_element(e);
-}

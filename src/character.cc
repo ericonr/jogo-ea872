@@ -29,12 +29,6 @@ void Input::delete_player(int pos)
 	player_vector.erase(player_vector.begin() + (pos - 1));
 }
 
-void insert_playable_character(Character &c, Player &p, Input &in, Characters &chars)
-{
-	chars.add_character(c);
-	in.add_player(p);
-}
-
 void calc_bordas(Space_point &l, Space_point &r, float x, float y, float height, float width)
 {
 	l.x = x - (width / 2);
