@@ -41,10 +41,10 @@ static void run_game(Controller &c, JsonView &jv, PlayerMap &pm)
 	}
 }
 
-static void view_game(View &v, Input &in, JsonView &jv)
+static void view_game(View &v, Input &in, JsonView &jv, const char *ip)
 {
 	JsonSender js;
-	js.add_endpoint("127.0.0.1", IN_PORT);
+	js.add_endpoint(ip, IN_PORT);
 	JsonReceiver jr{CONN_PORT};
 	nlohmann::json j, ij;
 
@@ -86,6 +86,6 @@ int main(int argc, char **argv)
 	} else {
 		View v{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis};
 		Input in{v};
-		view_game(v, in, jv);
+		view_game(v, in, jv, argv[1]);
 	}
 }
