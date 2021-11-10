@@ -3,7 +3,7 @@
 #include "view.h"
 
 Character::Character(float x, float y, int size, float height, float width)
-	: x(x), y(y), size(size), height(height), width(width), last_direction(-1)
+	: x(x), y(y), last_shot_time(0), size(size), height(height), width(width), last_direction(-1)
 {
 	calc_bordas(l, r, x, y, height, width);
 }
