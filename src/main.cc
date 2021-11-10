@@ -63,10 +63,10 @@ static void receive_view(JsonSwitcher &jsw)
 	}
 }
 
-static void view_game(View &v, Input &in, JsonView &jv)
+static void view_game(View &v, Input &in, JsonView &jv, const char *ip)
 {
 	JsonSender js;
-	js.add_endpoint("127.0.0.1", IN_PORT);
+	js.add_endpoint(ip, IN_PORT);
 	nlohmann::json ij;
 
 	JsonSwitcher jsw;
@@ -117,6 +117,6 @@ int main(int argc, char **argv)
 	} else {
 		View v{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis};
 		Input in{v};
-		view_game(v, in, jv);
+		view_game(v, in, jv, argv[1]);
 	}
 }
