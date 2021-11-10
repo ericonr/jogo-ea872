@@ -2,37 +2,61 @@
 #include <fstream>
 #include <iostream>
 #include <thread>
-
+#include <mutex>          
 #include "json.hpp"
-
 #include "controller.h"
 #include "general_func.h"
 #include "json.h"
 #include "models.h"
 #include "view.h"
 
+std::mutex mtx;  
+
 static const int CONN_PORT = 9001, IN_PORT = 9002;
 
 static const float T = 0.01;
 
-static void run_game(Controller &c, JsonView &jv, PlayerMap &pm)
+static void receive_data_package(JsonReceiver &jr,PlayerMap &pm) {
+
+	boost::asio::ip::udp::udp::endpoint endpoint;
+	nlohmann::json ij;
+	while(true) {
+	
+	jr.receive(ij, endpoint);
+	mtx.lock();
+	pm.update_player(ij, endpoint);
+	mtx.unlock();
+	std::cout << " teste" << std::endl;
+	}
+	
+
+}
+
+
+
+
+
+static void run_game(Controller &c, JsonView &jv, PlayerMap &pm,JsonReceiver &jr)
 {
 	JsonSender js;
 	js.add_endpoint("127.0.0.1", CONN_PORT);
-	JsonReceiver jr{IN_PORT};
-	nlohmann::json j, ij;
-
-	boost::asio::ip::udp::udp::endpoint endpoint;
+	
+	nlohmann::json j;
 
 	const std::chrono::duration<int, std::milli> t{10};
 	std::chrono::steady_clock::time_point tp;
+	
+	auto t1 = std::thread(receive_data_package,std::ref(jr),std::ref(pm));
+	
+
 	while (1) {
+		
 		tp = std::chrono::steady_clock::now() + t;
-
-		jr.receive(ij, endpoint);
-		pm.update_player(ij, endpoint);
-
+		//receive_data_package(jr,pm);
+		mtx.lock();
 		c.update(pm, T);
+		mtx.unlock();
+		
 		jv.write(j);
 		js.send(j);
 		std::this_thread::sleep_until(tp);
@@ -65,6 +89,7 @@ int main(int argc, char **argv)
 	Time_counter tc;
 
 	JsonView jv{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis, tc};
+	
 
 	if (argc == 1) {
 		Monster m0{-15, 10, 50, 5, 5};
@@ -79,8 +104,10 @@ int main(int argc, char **argv)
 
 		Controller control{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis, tc};
 		PlayerMap pm{vetor_personagem};
-
-		run_game(control, jv, pm);
+		JsonReceiver jr{IN_PORT};
+		
+		
+		run_game(control, jv, pm, jr);
 	} else {
 		View v{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis};
 		Input in{v};
