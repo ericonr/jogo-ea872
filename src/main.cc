@@ -1,6 +1,7 @@
 #include <chrono>
 #include <fstream>
 #include <iostream>
+#include <mutex>
 #include <thread>
 
 #include "json.hpp"
@@ -14,28 +15,51 @@
 static const int CONN_PORT = 9001, IN_PORT = 9002;
 
 static const float T = 0.01;
+const std::chrono::duration<int, std::milli> wait_time{10};
+
+static void receive_data_package(PlayerMap &pm, std::mutex &mtx)
+{
+	JsonReceiver jr{IN_PORT};
+	boost::asio::ip::udp::udp::endpoint endpoint;
+	nlohmann::json ij;
+	while (true) {
+		jr.receive(ij, endpoint);
+
+		mtx.lock();
+		pm.update_player(ij, endpoint);
+		mtx.unlock();
+	}
+}
 
 static void run_game(Controller &c, JsonView &jv, PlayerMap &pm)
 {
 	JsonSender js;
 	js.add_endpoint("127.0.0.1", CONN_PORT);
-	JsonReceiver jr{IN_PORT};
-	nlohmann::json j, ij;
 
-	boost::asio::ip::udp::udp::endpoint endpoint;
+	nlohmann::json j;
 
-	const std::chrono::duration<int, std::milli> t{10};
-	std::chrono::steady_clock::time_point tp;
-	while (1) {
-		tp = std::chrono::steady_clock::now() + t;
+	std::mutex run_mtx;
+	std::thread t(receive_data_package, std::ref(pm), std::ref(run_mtx));
 
-		jr.receive(ij, endpoint);
-		pm.update_player(ij, endpoint);
+	while (true) {
+		auto tp = std::chrono::steady_clock::now() + wait_time;
 
+		run_mtx.lock();
 		c.update(pm, T);
 		jv.write(j);
+		run_mtx.unlock();
+
 		js.send(j);
+
 		std::this_thread::sleep_until(tp);
+	}
+}
+
+static void receive_view(JsonSwitcher &jsw)
+{
+	JsonReceiver jr{CONN_PORT};
+	while (true) {
+		jr.receive(jsw.for_write());
 	}
 }
 
@@ -43,16 +67,25 @@ static void view_game(View &v, Input &in, JsonView &jv)
 {
 	JsonSender js;
 	js.add_endpoint("127.0.0.1", IN_PORT);
-	JsonReceiver jr{CONN_PORT};
-	nlohmann::json j, ij;
+	nlohmann::json ij;
+
+	JsonSwitcher jsw;
+
+	std::thread t(receive_view, std::ref(jsw));
 
 	while (!in.should_quit()) {
+		auto tp = std::chrono::steady_clock::now() + wait_time;
 		in.refresh();
 		in.to_json(ij);
 		js.send(ij);
-		jr.receive(j);
+
+		auto j = jsw.for_read();
 		jv.read(j);
+		jsw.release_read();
+
 		v.render();
+
+		std::this_thread::sleep_until(tp); // também funciona sem
 	}
 }
 
