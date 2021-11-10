@@ -1,5 +1,7 @@
+#include <chrono>
 #include <fstream>
 #include <iostream>
+#include <thread>
 
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
@@ -14,14 +16,15 @@
 
 static const float T = 0.01;
 
-static void run_game(Controller &c, View &v, Input &in, JsonSender &js)
+static void run_game(Controller &c, JsonSender &js)
 {
-	while (!in.should_quit()) {
-		v.render();
-		in.refresh();
-		c.update(in, T);
+	const std::chrono::duration<int, std::milli> t{10};
+	std::chrono::steady_clock::time_point tp;
+	while (1) {
+		tp = std::chrono::steady_clock::now() + t;
+		// c.update(in, T);
 		js.send();
-		v.delay(T);
+		std::this_thread::sleep_until(tp);
 	}
 }
 
@@ -52,9 +55,7 @@ int main(int argc, char **argv)
 	Projectile_vector vetor_projeteis;
 	Time_counter tc;
 
-	View v{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis};
 	JsonView jv{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis, tc};
-	Input in{v};
 	Controller control{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis, tc};
 
 	if (argc == 1) {
@@ -74,7 +75,7 @@ int main(int argc, char **argv)
 		boost::asio::ip::udp::udp::endpoint remote_endpoint(ip_remoto, 9001);
 		js.endpoints.push_back(remote_endpoint);
 
-		run_game(control, v, in, js);
+		run_game(control, js);
 
 		nlohmann::json j;
 		std::ofstream f{"save_game.json"};
@@ -83,6 +84,8 @@ int main(int argc, char **argv)
 
 		std::cout << j << std::endl;
 	} else {
+		View v{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis};
+		Input in{v};
 		view_game(v, in, jv);
 	}
 }
