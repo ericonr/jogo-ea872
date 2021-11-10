@@ -78,13 +78,6 @@ int main(int argc, char **argv)
 		js.endpoints.push_back(remote_endpoint);
 
 		run_game(control, js);
-
-		nlohmann::json j;
-		std::ofstream f{"save_game.json"};
-		jv.write(j);
-		f << j;
-
-		std::cout << j << std::endl;
 	} else {
 		View v{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis};
 		Input in{v};
