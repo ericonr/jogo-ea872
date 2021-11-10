@@ -18,7 +18,6 @@ static const float T = 0.01;
 static void run_game(Controller &c, JsonView &jv, PlayerMap &pm)
 {
 	JsonSender js;
-	js.add_endpoint("127.0.0.1", CONN_PORT);
 	JsonReceiver jr{IN_PORT};
 	nlohmann::json j, ij;
 
@@ -30,7 +29,10 @@ static void run_game(Controller &c, JsonView &jv, PlayerMap &pm)
 		tp = std::chrono::steady_clock::now() + t;
 
 		jr.receive(ij, endpoint);
-		pm.update_player(ij, endpoint);
+		if (pm.update_player(ij, endpoint)) {
+			endpoint.port(CONN_PORT);
+			js.endpoints.push_back(endpoint);
+		}
 
 		c.update(pm, T);
 		jv.write(j);
