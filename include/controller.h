@@ -43,5 +43,5 @@ class Controller
 		: chars(chars), sev(sev), mv(mv), pv(pv), tc(tc)
 	{
 	}
-	void update(Input &in, float t);
+	void update(const PlayerMap &pm, float t);
 };

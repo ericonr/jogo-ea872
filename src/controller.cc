@@ -42,29 +42,34 @@ bool doOverlap(Space_point l1, Space_point r1, Space_point l2, Space_point r2)
 	return true;
 }
 
-void Controller::update(Input &in, float t)
+static bool is_direction(unsigned mov, unsigned direction)
 {
-	for (unsigned n_player = 0; n_player < chars.Character_vector.size(); n_player++) {
+	return mov & (1 << direction);
+}
 
-		auto &c = chars.Character_vector[n_player];
+void Controller::update(const PlayerMap &pm, float t)
+{
+	for (const auto &player : pm.players) {
+		unsigned mov = player.second.mov;
+		auto &c = chars.Character_vector[player.second.pos];
 		float dx = 0., dy = 0.;
 		int direction = -1;
-		/*if (in.movement(direction::up, n_player)) {
+		if (is_direction(mov, direction::up)) {
 			dy += max_speed * t;
 			direction = direction::up;
 		}
-		if (in.movement(direction::down, n_player)) {
+		if (is_direction(mov, direction::down)) {
 			dy -= max_speed * t;
 			direction = direction::down;
 		}
-		if (in.movement(direction::left, n_player)) {
+		if (is_direction(mov, direction::left)) {
 			dx -= max_speed * t;
 			direction = direction::left;
 		}
-		if (in.movement(direction::right, n_player)) {
+		if (is_direction(mov, direction::right)) {
 			dx += max_speed * t;
 			direction = direction::right;
-		}*/
+		}
 
 		if (direction != -1) c.last_direction = direction;
 
@@ -84,15 +89,12 @@ void Controller::update(Input &in, float t)
 		Space_point comparison_value_l;
 		Space_point comparison_value_r;
 
-		comparison_value_l.x = dx + chars.Character_vector[n_player].x - ((chars.Character_vector[n_player].width) / 2);
-		comparison_value_l.y =
-			dy + chars.Character_vector[n_player].y + ((chars.Character_vector[n_player].height) / 2);
-		comparison_value_r.x = dx + chars.Character_vector[n_player].x + ((chars.Character_vector[n_player].width) / 2);
-		comparison_value_r.y =
-			dy + chars.Character_vector[n_player].y - ((chars.Character_vector[n_player].height) / 2);
+		comparison_value_l.x = dx + c.x - ((c.width) / 2);
+		comparison_value_l.y = dy + c.y + ((c.height) / 2);
+		comparison_value_r.x = dx + c.x + ((c.width) / 2);
+		comparison_value_r.y = dy + c.y - ((c.height) / 2);
 
 		for (unsigned n_element = 0; n_element < sev.element_vector.size(); n_element++) {
-
 			collision_flag = doOverlap(comparison_value_l, comparison_value_r, sev.element_vector[n_element].l,
 									   sev.element_vector[n_element].r);
 
@@ -102,11 +104,11 @@ void Controller::update(Input &in, float t)
 		}
 
 		if (collision_flag == false) {
-			chars.Character_vector[n_player].x += dx;
-			chars.Character_vector[n_player].y += dy;
+			c.x += dx;
+			c.y += dy;
 
-			chars.Character_vector[n_player].l = comparison_value_l;
-			chars.Character_vector[n_player].r = comparison_value_r;
+			c.l = comparison_value_l;
+			c.r = comparison_value_r;
 		}
 	}
 

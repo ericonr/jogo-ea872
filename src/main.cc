@@ -15,7 +15,7 @@ static const int CONN_PORT = 9001, IN_PORT = 9002;
 
 static const float T = 0.01;
 
-static void run_game(Controller &c, JsonView &jv)
+static void run_game(Controller &c, JsonView &jv, PlayerMap &pm)
 {
 	JsonSender js;
 	js.add_endpoint("127.0.0.1", CONN_PORT);
@@ -25,7 +25,7 @@ static void run_game(Controller &c, JsonView &jv)
 	std::chrono::steady_clock::time_point tp;
 	while (1) {
 		tp = std::chrono::steady_clock::now() + t;
-		// c.update(in, T);
+		c.update(pm, T);
 		jv.write(j);
 		js.send(j);
 		std::this_thread::sleep_until(tp);
@@ -58,7 +58,6 @@ int main(int argc, char **argv)
 	Time_counter tc;
 
 	JsonView jv{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis, tc};
-	Controller control{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis, tc};
 
 	if (argc == 1) {
 		Monster m0{-15, 10, 50, 5, 5};
@@ -71,7 +70,10 @@ int main(int argc, char **argv)
 		vetor_elementos.add_element(e1);
 		vetor_elementos.add_element(e2);
 
-		run_game(control, jv);
+		Controller control{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis, tc};
+		PlayerMap pm{vetor_personagem};
+
+		run_game(control, jv, pm);
 	} else {
 		View v{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis};
 		Input in{v};
