@@ -14,18 +14,23 @@
 #include "models.h"
 #include "view.h"
 
-static const int CONN_PORT = 9001;
+static const int CONN_PORT = 9001, IN_PORT = 9002;
 
 static const float T = 0.01;
 
-static void run_game(Controller &c, JsonSender &js)
+static void run_game(Controller &c, JsonView &jv)
 {
+	JsonSender js;
+	js.add_endpoint("127.0.0.1", CONN_PORT);
+	nlohmann::json j;
+
 	const std::chrono::duration<int, std::milli> t{10};
 	std::chrono::steady_clock::time_point tp;
 	while (1) {
 		tp = std::chrono::steady_clock::now() + t;
 		// c.update(in, T);
-		js.send();
+		jv.write(j);
+		js.send(j);
 		std::this_thread::sleep_until(tp);
 	}
 }
@@ -38,6 +43,10 @@ static void view_game(View &v, Input &in, JsonView &jv)
 	boost::asio::ip::udp::udp::socket my_socket(my_io_service, local_endpoint);
 	boost::asio::ip::udp::udp::endpoint remote_endpoint;
 
+	JsonSender js;
+	js.add_endpoint("127.0.0.1", IN_PORT);
+	nlohmann::json ij;
+
 	while (!in.should_quit()) {
 		size_t len = my_socket.receive_from(boost::asio::buffer(message, sizeof message), remote_endpoint);
 		message[len] = 0;
@@ -46,6 +55,8 @@ static void view_game(View &v, Input &in, JsonView &jv)
 		jv.read(j);
 		v.render();
 		in.refresh();
+		in.to_json(ij);
+		js.send(ij);
 	}
 }
 
@@ -71,13 +82,7 @@ int main(int argc, char **argv)
 		vetor_elementos.add_element(e1);
 		vetor_elementos.add_element(e2);
 
-		JsonSender js{jv};
-
-		boost::asio::ip::address ip_remoto = boost::asio::ip::address::from_string("127.0.0.1");
-		boost::asio::ip::udp::udp::endpoint remote_endpoint(ip_remoto, CONN_PORT);
-		js.endpoints.push_back(remote_endpoint);
-
-		run_game(control, js);
+		run_game(control, jv);
 	} else {
 		View v{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis};
 		Input in{v};
