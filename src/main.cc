@@ -3,9 +3,6 @@
 #include <iostream>
 #include <thread>
 
-#include <boost/asio.hpp>
-#include <boost/bind.hpp>
-
 #include "json.hpp"
 
 #include "controller.h"
@@ -37,21 +34,13 @@ static void run_game(Controller &c, JsonView &jv)
 
 static void view_game(View &v, Input &in, JsonView &jv)
 {
-	char message[64000];
-	boost::asio::io_service my_io_service;
-	boost::asio::ip::udp::udp::endpoint local_endpoint(boost::asio::ip::udp::udp::v4(), CONN_PORT);
-	boost::asio::ip::udp::udp::socket my_socket(my_io_service, local_endpoint);
-	boost::asio::ip::udp::udp::endpoint remote_endpoint;
-
 	JsonSender js;
 	js.add_endpoint("127.0.0.1", IN_PORT);
-	nlohmann::json ij;
+	JsonReceiver jr{CONN_PORT};
+	nlohmann::json j, ij;
 
 	while (!in.should_quit()) {
-		size_t len = my_socket.receive_from(boost::asio::buffer(message, sizeof message), remote_endpoint);
-		message[len] = 0;
-		std::cout << message << std::endl;
-		nlohmann::json j = nlohmann::json::parse(message);
+		jr.receive(j);
 		jv.read(j);
 		v.render();
 		in.refresh();
