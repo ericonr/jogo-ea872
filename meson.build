@@ -9,7 +9,7 @@ boost_dep = [
     cxx.find_library('boost_filesystem'),
 ]
 
-includes = include_directories('include')
+includes = include_directories('include', 'json')
 srcs = [
 	'src/main.cc',
 	'src/controller.cc',
