@@ -46,9 +46,6 @@ static void view_game(View &v, Input &in, JsonView &jv)
 
 int main(int argc, char **argv)
 {
-	Player p0{0, 0, Player::keyboard, {SDL_SCANCODE_W, SDL_SCANCODE_S, SDL_SCANCODE_A, SDL_SCANCODE_D}};
-	Player p1{0, 0, Player::keyboard, {SDL_SCANCODE_UP, SDL_SCANCODE_DOWN, SDL_SCANCODE_LEFT, SDL_SCANCODE_RIGHT}};
-
 	Characters vetor_personagem;
 	Scenery_element_vector vetor_elementos;
 	Monster_vector vetor_monstros;
@@ -61,9 +58,6 @@ int main(int argc, char **argv)
 	Controller control{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis, tc};
 
 	if (argc == 1) {
-		Character c0{0, 0, 50, 5, 5};
-		Character c1{0, 0, 50, 5, 5};
-
 		Monster m0{-15, 10, 50, 5, 5};
 		Monster m1{15, 15, 50, 5, 5};
 
@@ -75,8 +69,6 @@ int main(int argc, char **argv)
 		insert_Monster(m0, vetor_monstros);
 		insert_Monster(m1, vetor_monstros);
 
-		insert_playable_character(c0, p0, in, vetor_personagem);
-		insert_playable_character(c1, p1, in, vetor_personagem);
 
 		JsonSender js{jv};
 
