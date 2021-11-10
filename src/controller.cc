@@ -49,7 +49,7 @@ void Controller::update(Input &in, float t)
 		auto &c = chars.Character_vector[n_player];
 		float dx = 0., dy = 0.;
 		int direction = -1;
-		if (in.movement(direction::up, n_player)) {
+		/*if (in.movement(direction::up, n_player)) {
 			dy += max_speed * t;
 			direction = direction::up;
 		}
@@ -64,7 +64,7 @@ void Controller::update(Input &in, float t)
 		if (in.movement(direction::right, n_player)) {
 			dx += max_speed * t;
 			direction = direction::right;
-		}
+		}*/
 
 		if (direction != -1) c.last_direction = direction;
 

@@ -3,6 +3,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include "json.hpp"
+
 #include "models.h"
 
 class View
@@ -23,15 +25,6 @@ class View
 	void delay(float t);
 };
 
-struct Player {
-	unsigned movement;
-	unsigned long id;
-	enum { keyboard, online } type;
-
-	// keyboard
-	int keys[4];
-};
-
 class Input
 {
 	SDL_Event event;
@@ -39,9 +32,9 @@ class Input
 	int numkeys;
 
 	bool m_should_quit;
+	unsigned m_movement;
 
 	public:
-	std::vector<Player> player_vector;
 	Input(const View &v);
 
 	void refresh();
@@ -49,7 +42,5 @@ class Input
 	{
 		return m_should_quit;
 	}
-	bool movement(int direction, unsigned n_player);
-	void add_player(Player &p);
-	void delete_player(int pos);
+	void to_json(nlohmann::json &j);
 };

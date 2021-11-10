@@ -3,11 +3,12 @@
 
 #include "view.h"
 
-Input::Input(const View &v) : m_should_quit(false), player_vector(0)
+Input::Input(const View &v) : m_should_quit(false)
 {
-
 	keyboard = SDL_GetKeyboardState(&numkeys);
 }
+
+static int keys[4] = {SDL_SCANCODE_W, SDL_SCANCODE_S, SDL_SCANCODE_A, SDL_SCANCODE_D};
 
 void Input::refresh()
 {
@@ -19,19 +20,14 @@ void Input::refresh()
 
 	if (keyboard[SDL_SCANCODE_Q]) m_should_quit = true;
 
-	for (auto &p : player_vector) {
-		if (p.type == Player::keyboard) {
-			int i = 0;
-			p.movement = 0;
-			for (auto key : p.keys) {
-				p.movement |= keyboard[key] << i++;
-			}
-		}
+	m_movement = 0;
+	unsigned i = 0;
+	for (auto key : keys) {
+		m_movement |= keyboard[key] << i++;
 	}
 }
 
-bool Input::movement(int direction, unsigned int n_player)
+void Input::to_json(nlohmann::json &j)
 {
-	if (direction >= direction::max) throw std::logic_error("out of bounds index");
-	return player_vector[n_player].movement & (1 << direction);
+	j["mov"] = m_movement;
 }

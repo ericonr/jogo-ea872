@@ -19,16 +19,6 @@ void Characters::delete_character(int pos)
 	Character_vector.erase(Character_vector.begin() + (pos - 1));
 }
 
-void Input::add_player(Player &p)
-{
-	player_vector.push_back(p);
-}
-
-void Input::delete_player(int pos)
-{
-	player_vector.erase(player_vector.begin() + (pos - 1));
-}
-
 void calc_bordas(Space_point &l, Space_point &r, float x, float y, float height, float width)
 {
 	l.x = x - (width / 2);
