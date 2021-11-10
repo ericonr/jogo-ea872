@@ -5,6 +5,7 @@
 
 #include "json.hpp"
 #include "models.h"
+#include "view.h"
 
 class JsonView
 {
@@ -27,8 +28,6 @@ class JsonView
 
 class JsonSender
 {
-	JsonView &jv;
-
 	boost::asio::io_service io_service;
 	boost::asio::ip::udp::udp::endpoint local_endpoint;
 	boost::asio::ip::udp::udp::udp::socket local_socket;
@@ -36,10 +35,10 @@ class JsonSender
 	public:
 	std::vector<boost::asio::ip::udp::udp::endpoint> endpoints;
 
-	JsonSender(JsonView &jv)
-		: jv(jv), local_endpoint(boost::asio::ip::udp::udp::v4(), 0), local_socket(io_service, local_endpoint)
+	JsonSender() : local_endpoint(boost::asio::ip::udp::udp::v4(), 0), local_socket(io_service, local_endpoint)
 	{
 	}
 
-	void send();
+	void add_endpoint(const char *ip, int port);
+	void send(const nlohmann::json &j);
 };
