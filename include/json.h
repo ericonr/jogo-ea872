@@ -42,3 +42,24 @@ class JsonSender
 	void add_endpoint(const char *ip, int port);
 	void send(const nlohmann::json &j);
 };
+
+class JsonReceiver
+{
+	boost::asio::io_service io_service;
+	boost::asio::ip::udp::udp::endpoint local_endpoint;
+	boost::asio::ip::udp::udp::udp::socket local_socket;
+
+	boost::asio::ip::udp::udp::endpoint remote_endpoint;
+
+	std::vector<unsigned char> message;
+
+	public:
+	JsonReceiver(int port)
+		: local_endpoint(boost::asio::ip::udp::udp::v4(), port), local_socket(io_service, local_endpoint),
+		  message(64000)
+	{
+	}
+
+	void receive(nlohmann::json &j, boost::asio::ip::udp::udp::endpoint &e);
+	void receive(nlohmann::json &j);
+};

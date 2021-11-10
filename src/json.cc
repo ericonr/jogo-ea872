@@ -32,3 +32,15 @@ void JsonSender::send(const nlohmann::json &j)
 		local_socket.send_to(boost::asio::buffer(message), e);
 	}
 }
+
+void JsonReceiver::receive(nlohmann::json &j, boost::asio::ip::udp::udp::endpoint &e)
+{
+	size_t len = local_socket.receive_from(boost::asio::buffer(message, message.size()), e);
+	message[len] = '\0';
+	j = nlohmann::json::parse(message);
+}
+
+void JsonReceiver::receive(nlohmann::json &j)
+{
+	receive(j, remote_endpoint);
+}
