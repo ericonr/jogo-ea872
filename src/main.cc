@@ -19,12 +19,19 @@ static void run_game(Controller &c, JsonView &jv, PlayerMap &pm)
 {
 	JsonSender js;
 	js.add_endpoint("127.0.0.1", CONN_PORT);
-	nlohmann::json j;
+	JsonReceiver jr{IN_PORT};
+	nlohmann::json j, ij;
+
+	boost::asio::ip::udp::udp::endpoint endpoint;
 
 	const std::chrono::duration<int, std::milli> t{10};
 	std::chrono::steady_clock::time_point tp;
 	while (1) {
 		tp = std::chrono::steady_clock::now() + t;
+
+		jr.receive(ij, endpoint);
+		pm.update_player(ij, endpoint);
+
 		c.update(pm, T);
 		jv.write(j);
 		js.send(j);
@@ -40,12 +47,12 @@ static void view_game(View &v, Input &in, JsonView &jv)
 	nlohmann::json j, ij;
 
 	while (!in.should_quit()) {
-		jr.receive(j);
-		jv.read(j);
-		v.render();
 		in.refresh();
 		in.to_json(ij);
 		js.send(ij);
+		jr.receive(j);
+		jv.read(j);
+		v.render();
 	}
 }
 
