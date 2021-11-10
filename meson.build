@@ -13,6 +13,7 @@ includes = include_directories('include', 'json')
 srcs = [
 	'src/main.cc',
 	'src/controller.cc',
+	'src/player.cc',
 	'src/view.cc',
 	'src/json.cc',
 	'src/input.cc',
