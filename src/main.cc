@@ -60,15 +60,13 @@ int main(int argc, char **argv)
 	if (argc == 1) {
 		Monster m0{-15, 10, 50, 5, 5};
 		Monster m1{15, 15, 50, 5, 5};
+		vetor_monstros.add_monster(m0);
+		vetor_monstros.add_monster(m1);
 
 		Scenery_element e1{10, 10, 50, 5, 5};
 		Scenery_element e2{-10, -10, 50, 5, 5};
-
-		insert_Scenery_element(e1, vetor_elementos);
-		insert_Scenery_element(e2, vetor_elementos);
-		insert_Monster(m0, vetor_monstros);
-		insert_Monster(m1, vetor_monstros);
-
+		vetor_elementos.add_element(e1);
+		vetor_elementos.add_element(e2);
 
 		JsonSender js{jv};
 
