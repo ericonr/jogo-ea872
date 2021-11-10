@@ -14,6 +14,8 @@
 #include "models.h"
 #include "view.h"
 
+static const int CONN_PORT = 9001;
+
 static const float T = 0.01;
 
 static void run_game(Controller &c, JsonSender &js)
@@ -32,7 +34,7 @@ static void view_game(View &v, Input &in, JsonView &jv)
 {
 	char message[64000];
 	boost::asio::io_service my_io_service;
-	boost::asio::ip::udp::udp::endpoint local_endpoint(boost::asio::ip::udp::udp::v4(), 9001);
+	boost::asio::ip::udp::udp::endpoint local_endpoint(boost::asio::ip::udp::udp::v4(), CONN_PORT);
 	boost::asio::ip::udp::udp::socket my_socket(my_io_service, local_endpoint);
 	boost::asio::ip::udp::udp::endpoint remote_endpoint;
 
@@ -72,7 +74,7 @@ int main(int argc, char **argv)
 		JsonSender js{jv};
 
 		boost::asio::ip::address ip_remoto = boost::asio::ip::address::from_string("127.0.0.1");
-		boost::asio::ip::udp::udp::endpoint remote_endpoint(ip_remoto, 9001);
+		boost::asio::ip::udp::udp::endpoint remote_endpoint(ip_remoto, CONN_PORT);
 		js.endpoints.push_back(remote_endpoint);
 
 		run_game(control, js);
