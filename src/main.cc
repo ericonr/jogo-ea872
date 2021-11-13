@@ -87,6 +87,7 @@ static void view_game(View &v, Input &in, JsonView &jv, const char *ip)
 
 		std::this_thread::sleep_until(tp); // também funciona sem
 	}
+	std::cout << "quitting!" << std::endl;
 }
 
 int main(int argc, char **argv)
