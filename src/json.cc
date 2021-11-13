@@ -28,6 +28,7 @@ void JsonSender::add_endpoint(const char *ip, int port)
 void JsonSender::send(const nlohmann::json &j)
 {
 	std::string message = j.dump();
+	// std::cout << "len " << message.size() << std::endl;
 	for (auto e : endpoints) {
 		local_socket.send_to(boost::asio::buffer(message), e);
 	}
@@ -36,6 +37,7 @@ void JsonSender::send(const nlohmann::json &j)
 void JsonReceiver::receive(nlohmann::json &j, boost::asio::ip::udp::udp::endpoint &e)
 {
 	size_t len = local_socket.receive_from(boost::asio::buffer(message, message.size() - 1), e);
+	// std::cout << "rec " << len << std::endl;
 	message[len] = '\0';
 	j = nlohmann::json::parse(message);
 }
