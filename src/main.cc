@@ -17,7 +17,7 @@ static const int CONN_PORT = 9001, IN_PORT = 9002;
 static const float T = 0.01;
 const std::chrono::duration<int, std::milli> wait_time{10};
 
-static void receive_data_package(PlayerMap &pm, std::mutex &mtx)
+static void receive_data_package(PlayerMap &pm, JsonSender &js, std::mutex &mtx)
 {
 	JsonReceiver jr{IN_PORT};
 	boost::asio::ip::udp::udp::endpoint endpoint;
@@ -26,7 +26,10 @@ static void receive_data_package(PlayerMap &pm, std::mutex &mtx)
 		jr.receive(ij, endpoint);
 
 		mtx.lock();
-		pm.update_player(ij, endpoint);
+		if (pm.update_player(ij, endpoint)) {
+			endpoint.port(CONN_PORT);
+			js.endpoints.push_back(endpoint);
+		}
 		mtx.unlock();
 	}
 }
@@ -34,12 +37,10 @@ static void receive_data_package(PlayerMap &pm, std::mutex &mtx)
 static void run_game(Controller &c, JsonView &jv, PlayerMap &pm)
 {
 	JsonSender js;
-	js.add_endpoint("127.0.0.1", CONN_PORT);
-
 	nlohmann::json j;
 
 	std::mutex run_mtx;
-	std::thread t(receive_data_package, std::ref(pm), std::ref(run_mtx));
+	std::thread t(receive_data_package, std::ref(pm), std::ref(js), std::ref(run_mtx));
 
 	while (true) {
 		auto tp = std::chrono::steady_clock::now() + wait_time;
@@ -47,9 +48,8 @@ static void run_game(Controller &c, JsonView &jv, PlayerMap &pm)
 		run_mtx.lock();
 		c.update(pm, T);
 		jv.write(j);
-		run_mtx.unlock();
-
 		js.send(j);
+		run_mtx.unlock();
 
 		std::this_thread::sleep_until(tp);
 	}
