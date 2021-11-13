@@ -13,13 +13,14 @@
 #include "view.h"
 
 static const int CONN_PORT = 9001, IN_PORT = 9002;
+static const char *localhost = "127.0.0.1";
 
 static const float T = 0.01;
 const std::chrono::duration<int, std::milli> wait_time{10};
 
 static void receive_data_package(PlayerMap &pm, JsonSender &js, std::mutex &mtx)
 {
-	JsonReceiver jr{IN_PORT};
+	JsonReceiver jr{localhost, IN_PORT};
 	boost::asio::ip::udp::udp::endpoint endpoint;
 	nlohmann::json ij;
 	while (true) {
@@ -36,7 +37,7 @@ static void receive_data_package(PlayerMap &pm, JsonSender &js, std::mutex &mtx)
 
 static void run_game(Controller &c, JsonView &jv, PlayerMap &pm)
 {
-	JsonSender js;
+	JsonSender js{localhost};
 	nlohmann::json j;
 
 	std::mutex run_mtx;
@@ -55,23 +56,23 @@ static void run_game(Controller &c, JsonView &jv, PlayerMap &pm)
 	}
 }
 
-static void receive_view(JsonSwitcher &jsw)
+static void receive_view(JsonSwitcher &jsw, const char *listen_ip)
 {
-	JsonReceiver jr{CONN_PORT};
+	JsonReceiver jr{listen_ip, CONN_PORT};
 	while (true) {
 		jr.receive(jsw.for_write());
 	}
 }
 
-static void view_game(View &v, Input &in, JsonView &jv, const char *ip)
+static void view_game(View &v, Input &in, JsonView &jv, const char *ip, const char *listen_ip)
 {
-	JsonSender js;
+	JsonSender js{listen_ip};
 	js.add_endpoint(ip, IN_PORT);
 	nlohmann::json ij;
 
 	JsonSwitcher jsw;
 
-	std::thread t(receive_view, std::ref(jsw));
+	std::thread t(receive_view, std::ref(jsw), listen_ip);
 
 	while (!in.should_quit()) {
 		auto tp = std::chrono::steady_clock::now() + wait_time;
@@ -116,8 +117,10 @@ int main(int argc, char **argv)
 
 		run_game(control, jv, pm);
 	} else {
+		const char *listen_ip = localhost;
+		if (argc == 3) listen_ip = argv[2];
 		View v{vetor_personagem, vetor_elementos, vetor_monstros, vetor_projeteis};
 		Input in{v};
-		view_game(v, in, jv, argv[1]);
+		view_game(v, in, jv, argv[1], listen_ip);
 	}
 }
