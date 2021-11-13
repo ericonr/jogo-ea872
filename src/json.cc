@@ -44,3 +44,32 @@ void JsonReceiver::receive(nlohmann::json &j)
 {
 	receive(j, remote_endpoint);
 }
+
+nlohmann::json &JsonSwitcher::for_write()
+{
+	mtx.lock();
+	if (reader != -1) {
+		writer = !reader;
+	} else {
+		writer = !writer;
+	}
+	mtx.unlock();
+	return j[writer];
+}
+
+nlohmann::json &JsonSwitcher::for_read()
+{
+	assert(reader == -1);
+
+	mtx.lock();
+	reader = !writer;
+	mtx.unlock();
+	return j[reader];
+}
+
+void JsonSwitcher::release_read()
+{
+	mtx.lock();
+	reader = -1;
+	mtx.unlock();
+}
