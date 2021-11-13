@@ -7,6 +7,7 @@ cxx = meson.get_compiler('cpp')
 boost_dep = [
     cxx.find_library('boost_system'),
     cxx.find_library('boost_filesystem'),
+    cxx.find_library('pthread'),
 ]
 
 includes = include_directories('include', 'json')
