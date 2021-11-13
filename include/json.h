@@ -1,3 +1,4 @@
+#include <mutex>
 #include <vector>
 
 #include <boost/asio.hpp>
@@ -62,4 +63,19 @@ class JsonReceiver
 
 	void receive(nlohmann::json &j, boost::asio::ip::udp::udp::endpoint &e);
 	void receive(nlohmann::json &j);
+};
+
+class JsonSwitcher
+{
+	std::mutex mtx;
+	int reader, writer;
+	nlohmann::json j[2];
+
+	public:
+	JsonSwitcher() : reader(-1), writer(0)
+	{
+	}
+	nlohmann::json &for_write();
+	nlohmann::json &for_read();
+	void release_read();
 };
