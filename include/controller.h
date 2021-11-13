@@ -26,7 +26,7 @@ class PlayerMap
 	{
 	}
 
-	void update_player(const nlohmann::json &j, const boost::asio::ip::udp::udp::endpoint &e);
+	int update_player(const nlohmann::json &j, const boost::asio::ip::udp::udp::endpoint &e);
 };
 
 class Controller
