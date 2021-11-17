@@ -13,7 +13,7 @@
 #include "view.h"
 
 static const int CONN_PORT = 9001, IN_PORT = 9002;
-static const char *localhost = "127.0.0.1";
+static const char *localhost = "0.0.0.0";
 
 static const float T = 0.01;
 const std::chrono::duration<int, std::milli> wait_time{10};
